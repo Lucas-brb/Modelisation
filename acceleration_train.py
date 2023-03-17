@@ -9,6 +9,8 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 import numpy as np
+from Carac_trains import * # on importe tous les trains et leurs carctéristiques
+
 """Le code suivant va permettre de calculer l'accélération d'un train en fonction de sa vitesse actuelle.
 Pour ce faire nous allons renseigner les données contenues dans Excel et les implémenter dans python.
 Voici comment les matrices sont représentées :
@@ -29,8 +31,13 @@ def acceleration(v,train) : #donne l'accélération du train en fonction de la v
         while v >= M_v_e[i,0] : #on cherche dans quel intervalle la vitesse actuelle se situe
             i += 1
     a = (M_v_e[i-1,1] - RAV)/(train[0]*1000) # application du PFD
-    print(M_v_e[i-1,1] , RAV , M_v_e[i-1,1] - RAV)
     return (a,d)
-M_v_e_tgv = np.array([[0 , 220000] , [20 , 220000] , [40 , 217500] , [60 , 214000] , [70 , 203000] , [75 , 195000] , [80 , 177000] , [84, 170000] , [100 , 170000] , [120 , 169000] , [140 , 165500] , [160 , 161000] , [175 , 156000] , [180 , 153000] , [200 , 141000] , [220 , 128000] , [240 , 118000] , [260 , 108000] , [280 , 101000] , [300 , 94500] , [320, 90000]])
-tgv = [424 , 6.368 , 0.0755 , 0.001262 , 320 , M_v_e_tgv ]
-print(acceleration(0 , tgv))
+
+def temps_acceleration(v_actuelle,v_consigne,train):
+    if v_consigne <= v_actuelle :
+        temps = (v_actuelle - v_consigne)/acceleration(v_actuelle , train)[1]
+    else :
+        temps = 0
+    return temps
+
+print(temps_acceleration(10,0,tgv))
