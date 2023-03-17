@@ -2,7 +2,7 @@
 # Name:        Vitesse_train
 # Purpose:
 #
-# Author:      barbi
+# Author:      barbier lucas
 #
 # Created:     14/03/2023
 # Copyright:   (c) barbi 2023
@@ -35,9 +35,9 @@ def acceleration(v,train) : #donne l'accélération du train en fonction de la v
 
 def temps_acceleration(v_actuelle,v_consigne,train):
     if v_consigne <= v_actuelle :
-        temps = (v_actuelle - v_consigne)/acceleration(v_actuelle , train)[1]
+        temps = (v_actuelle - v_consigne)*3.6/acceleration(v_actuelle , train)[1]
     else :
         temps = 0
     return temps
 
-print(temps_acceleration(10,0,tgv))
+print(temps_acceleration(58,0,tgv))
