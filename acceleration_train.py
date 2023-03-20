@@ -34,10 +34,16 @@ def acceleration(v,train) : #donne l'accélération du train en fonction de la v
     return (a,d)
 
 def temps_acceleration(v_actuelle,v_consigne,train):
-    if v_consigne <= v_actuelle :
+    if v_actuelle >= v_consigne :
         temps = (v_actuelle - v_consigne)*3.6/acceleration(v_actuelle , train)[1]
+    elif v_consigne > train[4] :
+        raise ValueError('Vitesse supérieure à la vitesse maximale')
     else :
-        temps = 0
+        i = 0
+        while v_actuelle < v_consigne:
+            i += 0.1
+            v_actuelle += acceleration(v_actuelle , train)[0]*0.1*3.6
+        temps = i
     return temps
 
-print(temps_acceleration(58,0,tgv))
+print(temps_acceleration(0,320,tgv))
