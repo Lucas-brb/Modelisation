@@ -19,7 +19,11 @@ Matrice_vitesse_effort = M_v_e = [[palier_1 , effort_1] , ... , [palier_n , effo
 train = [masse(t), RAV_A, RAV_B, RAV_C, v_max, Matrice_vitesse_effort]"""
 
 
-def acceleration(v,train) : #donne l'accélération du train en fonction de la vitesse
+def acceleration(v,train) :
+    ''' Permet de donner l'accélération d'un type de train en fonction de sa vitesse actuelle
+    Entrées : v = vitesse actuelle du train en km/h ; train = le type de train et ses caractéristiques
+    Sortie : un tuple (a,d) avec a l'accélération en m/s² et d la décélération en m/s²
+    '''
     i = 0
     M_v_e = train[5] # on prend la matrice des efforts en fonction de la vitesse (donnée dans le fichier excel)
     RAV = train[0]*(train[1] + train[2]*v + train[3]*v**2)
@@ -34,10 +38,14 @@ def acceleration(v,train) : #donne l'accélération du train en fonction de la v
     return (a,d)
 
 def temps_acceleration(v_actuelle,v_consigne,train):
+    ''' Permet de donner le temps pour passer de la vitesse actuelle à la vitesse consigne pour un type de train
+    Entrées : v_actuelle = la vitesse actuelle du train en km/h ; v_consigne = la vitesse qu'on veut lui donner en km/h ; train = le type de train dont on veut modifier la vitesse
+    Sortie : temps = le temps mis pour passer de v_actuelle à v_consigne en s
+    '''
     if v_actuelle >= v_consigne :
         temps = (v_actuelle - v_consigne)*3.6/acceleration(v_actuelle , train)[1]
     elif v_consigne > train[4] :
-        raise ValueError('Vitesse supérieure à la vitesse maximale')
+        raise ValueError('Vitesse supérieure à la vitesse maximale du train')
     else :
         i = 0
         while v_actuelle < v_consigne:
@@ -46,4 +54,4 @@ def temps_acceleration(v_actuelle,v_consigne,train):
         temps = i
     return temps
 
-print(temps_acceleration(0,320,tgv))
+print(temps_acceleration(140,140,tgv))

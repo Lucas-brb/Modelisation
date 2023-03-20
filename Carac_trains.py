@@ -2,7 +2,7 @@
 # Name:        Carac_trains
 # Purpose:
 #
-# Author:      barbi
+# Author:      barbier lucas
 #
 # Created:     17/03/2023
 # Copyright:   (c) barbi 2023
