@@ -17,3 +17,4 @@ class Train:
         self.v_max = v_max
         self.M_v_e = Matrice_vitesse_effort
         self.nbe_passagers = nbe_passagers
+juju pète moi le cul
