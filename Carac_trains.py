@@ -10,7 +10,9 @@
 #-------------------------------------------------------------------------------
 import numpy as np
 
-"""Matrice_vitesse_effort_train = M_v_e = [[palier_1 , effort_1] , ... , [palier_n , effort_n]]
+"""
+Ici sont renseignées les caractéristiques des différents matériels roulants. Voici leur forme :
+Matrice_vitesse_effort_train = M_v_e = [[palier_1 , effort_1] , ... , [palier_n , effort_n]]
 train = [masse(t), RAV_A, RAV_B, RAV_C, v_max, Matrice_vitesse_effort , nbe_passagers]"""
 
 # TGV
