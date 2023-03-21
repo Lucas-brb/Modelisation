@@ -81,7 +81,8 @@ def d_min(v_actuelle, v_lim1, v_lim2, train):
     Entrées :
         v_actuelle = la vitesse actuelle du train (en km/h)
         v_lim1 = la vitesse limite sur le tronçon dans lequel est le train actuellement (km/h)
-        v_lim2 = la vitesse limite sur le prochain tronçon (km/h) ; train = le type de train utilisé pour ce calcul
+        v_lim2 = la vitesse limite sur le prochain tronçon (km/h)
+        train = le type de train utilisé pour ce calcul
     Sortie :
         d_min = la distance minimale pour passer par v1 avant de passer à v2 (km)
     Remarque : cette fonction ne marche que si v_actuelle < v_lim1 et v_lim1 > v_lim2
