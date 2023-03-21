@@ -54,10 +54,10 @@ def temps_acceleration(v_actuelle,v_consigne,train):
         i = 0
         l = 0
         while v_actuelle_m < v_consigne_m:
-            i += 0.1 # on échantillonne sur 1/10ème de seconde
-            l += v_actuelle_m*0.1 # on calcule la distance parcourue avec la méthode des triangles
-            v_actuelle_m += a*0.1 # méthode des rectangles, puis facteur 3.6 pour avoir la vitesse en km/h
+            i += 0.01 # on échantillonne sur 1/10ème de seconde
+            l += v_actuelle_m*0.01 # on calcule la distance parcourue avec la méthode des triangles
+            v_actuelle_m += a*0.01 # méthode des rectangles, puis facteur 3.6 pour avoir la vitesse en km/h
         temps = i
     return temps,l/1000
 
-print(temps_acceleration(320,0,tgv))
+print(temps_acceleration(20,320,tgv))
