@@ -85,23 +85,20 @@ def d_min(v_actuelle, v_lim1, v_lim2, train):
         train = le type de train utilisé pour ce calcul
     Sortie :
         d_min = la distance minimale pour passer par v1 avant de passer à v2 (km)
-    Remarque : cette fonction ne marche que si v_actuelle < v_lim1 et v_lim1 > v_lim2
+    Remarque : on considère que v_actuelle <= v_lim1 car on a respecté la limitation de vitesse dans le tronçon
     '''
     v_actuelle_m = v_actuelle/3.6
     v_lim1_m = v_lim1/3.6
     v_lim2_m = v_lim2/3.6
     a,f = acceleration(v_actuelle,train)
     if v_lim1 > v_lim2 :
-        if v_actuelle > v_lim1 : #il faut déjà freiner !
-            return (v_actuelle_m**2 - v_lim2_m**2)/(2*f)
-        else :
-            d_min = (v_lim1_m**2 - v_lim2_m**2)/(2*f) # on condidère qu'on atteint la vitesse max, donc on initialise d_min à la longueur qu'il faut pour passer de v_lim1 à v_lim2
-            while v_actuelle < v_lim1:
-                d_min += v_actuelle_m*0.01
-                v_actuelle_m += a*0.01
-                v_actuelle = v_actuelle_m*3.6
-                a,f = acceleration(v_actuelle , train) # actualisation de la nouvelle accélération
-            return d_min/1000
+        d_min = (v_lim1_m**2 - v_lim2_m**2)/(2*f) # on condidère qu'on atteint la vitesse max, donc on initialise d_min à la longueur qu'il faut pour passer de v_lim1 à v_lim2
+        while v_actuelle < v_lim1:
+            d_min += v_actuelle_m*0.01
+            v_actuelle_m += a*0.01
+            v_actuelle = v_actuelle_m*3.6
+            a,f = acceleration(v_actuelle , train) # actualisation de l'accélération
+        return d_min/1000
     else:
         raise ValueError('v_lim2 > v_lim1')
 
