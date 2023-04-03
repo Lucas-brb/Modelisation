@@ -57,8 +57,6 @@ def temps_acceleration(v_actuelle, v_consigne, train) :
     v_actuelle_m = v_actuelle/3.6
     v_consigne_m = v_consigne/3.6 # on travaille avec des vitesses en m.s pour faciliter les calculs
     a, f = acceleration(v_actuelle , train)
-    T = [0]
-    Vitesses = [v_actuelle_m]
     if v_actuelle_m >= v_consigne_m :
         temps = (v_actuelle_m - v_consigne_m)/f # freinage constant
         l = (v_actuelle_m**2 - v_consigne_m**2)/(2*f)
@@ -73,11 +71,7 @@ def temps_acceleration(v_actuelle, v_consigne, train) :
             v_actuelle_m += a*0.01 # méthode des rectangles
             v_actuelle = v_actuelle_m*3.6
             a,f = acceleration(v_actuelle , train) # actualisation de l'accélération
-            T.append(i)
-            Vitesses.append(v_actuelle_m)
         temps = i
-        #plt.plot(t, vitesses)
-        #plt.show()
     return temps,l/1000
 
 
@@ -122,7 +116,7 @@ def transition_tronçon(v_actuelle, v_tronçon1, v_tronçon2, l_tronçon, train)
     Sorties :
         temps = le temps mis par le train pour parcourir le tronçon
         v_max_atteinte =
-    Remarque : la question de l'éco-conduite n'est pas prise en compte ici, on essaie d'aller le plus vite possible
+    Remarque : la question de "l'éco-conduite" n'est pas prise en compte ici, on essaie d'aller le plus vite possible
     '''
     v_actuelle_m = v_actuelle/3.6
     v_tronçon1_m = v_tronçon1/3.6
@@ -150,11 +144,11 @@ def transition_tronçon(v_actuelle, v_tronçon1, v_tronçon2, l_tronçon, train)
                 temps = t_acc
     else :
         if temps_acceleration(v_actuelle, v_tronçon2, train)[1] > l_tronçon :
-            v_max_atteinte = v_actuelle
+            v_max_atteinte = v_actuelle # v_max_atteinte en km/h
             t_acc, d_acc = temps_acceleration(v_actuelle, v_max_atteinte, train)
             d_parcourue = d_acc*1000 # en mètre
             while d_parcourue < l_tronçon*1000 :
-                v_max_atteinte += 1
+                v_max_atteinte += 1 # en km/h
                 t_acc, d_acc = temps_acceleration(v_actuelle, v_max_atteinte, train)
                 if v_max_atteinte > v_tronçon2:
                     d_parcourue = d_acc + ((v_max_atteinte/3.6)**2 - v_tronçon2_m**2)/(2*0.5)
@@ -167,4 +161,4 @@ def transition_tronçon(v_actuelle, v_tronçon1, v_tronçon2, l_tronçon, train)
             v_max_atteinte = v_tronçon1
     return temps, v_max_atteinte
 
-#print(transition_tronçon(0, 130, 0, 10, Ter_2n))
+print(transition_tronçon(0, 130, 0, 10, Ter_2n))
