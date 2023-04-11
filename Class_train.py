@@ -9,7 +9,7 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 class Train:
-    def __init__(self, masse, RAV_A, RAV_B, RAV_C, v_max, Matrice_vitesse_effort , nbe_passagers):
+    def __init__(self, masse, RAV_A, RAV_B, RAV_C, v_max, Matrice_vitesse_effort, nbe_passagers):
         self.masse = masse
         self.RAV_A = RAV_A
         self.RAV_B = RAV_B
