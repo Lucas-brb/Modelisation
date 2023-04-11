@@ -34,7 +34,7 @@ l17=[gares[13],gares[14],125,10,1,2]
 l18=[gares[14],gares[15],125,12,1,2]
 
 l19=[bifurcations[3], gares[6],160, 1.6, 1, 4]
-l20=[bifurcation[3],gares[7],160,15,1,2]
+l20=[bifurcations[3],gares[7],160,15,1,2]
 l21=[gares[7],gares[8],160,38,1,2]
 
 l22=[gares[0],gares[35], 150,20,1,4]
@@ -44,7 +44,7 @@ l25=[gares[37],gares[38],140,27,1,2]
 l26=[gares[38],gares[39],140,18,1,2]
 
 l27=[gares[0],gares[34],90,7,1,4]
-l28=[gares[34],chngmt_nb_voies[1],160,4,1,3]
+l28=[gares[34],chgmt_nb_voies[1],160,4,1,3]
 l28bis=[chgmt_nb_voies[1],bifurcations[2],160,12,1,2]
 l29=[bifurcations[2],gares[33],160,14,1,2]
 l30=[gares[33],gares[32],160,6,1,2]
