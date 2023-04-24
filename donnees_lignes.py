@@ -1,9 +1,9 @@
 #données des trajets
 
 
-gares = ['Lyon', 'Roanne', 'Amplepuis', 'Tarare', 'Arbesle', 'Lozanne', 'Saint Germain', 'Villefranche', 'Mâcon', 'Bourg-en-Bresse', 'Villars', 'Sathenay', 'Givors', 'Rive de Gier', 'Saint Chamond', 'Saint Etienne', 'Feurs', 'Montluel', 'Ambérieu', 'Culoz', 'Aix-les-bains', 'Rumilly', 'Annecy', 'Chambéry', 'Montmélian', 'Grenoble université', 'Grenoble', 'Moirans', 'Voiron', 'Rives', 'Saint André', 'Tour du Pin', 'Bourgoin', "Isle d'Abeau", 'Vénissieux', 'Chasse sur Rhône', 'Vienne','Saint Rambert', 'Tain', 'Valence', 'Valence TGV', 'Romans', 'Mâcon-Loché-TGV','Saint-Exupéry','Crest']
+gares = ['Lyon', 'Roanne', 'Amplepuis', 'Tarare', 'Arbesle', 'Lozanne', 'Saint Germain', 'Villefranche', 'Mâcon', 'Bourg-en-Bresse', 'Villars', 'Sathenay', 'Givors', 'Rive de Gier', 'Saint Chamond', 'Saint Etienne', 'Feurs', 'Montluel', 'Ambérieu', 'Culoz', 'Aix-les-bains', 'Rumilly', 'Annecy', 'Chambéry', 'Montmélian', 'Grenoble université', 'Grenoble', 'Moirans', 'Voiron', 'Rives', 'Saint André', 'Tour du Pin', 'Bourgoin', "Isle d'Abeau", 'Vénissieux', 'Chasse sur Rhône', 'Vienne','Saint Rambert', 'Tain', 'Valence', 'Valence TGV', 'Romans', 'Mâcon-Loché-TGV','Crest']
 
-chgmt_vitesse=['Oullins', 'Saint Just Saint Rambert', 'tronçon imposé']
+chgmt_vitesse=['Oullins', 'Saint Just Saint Rambert', 'fin tronçon imposé nord', 'fin tronçon imposé sud']
 
 
 bifurcations=['Lyon Saint Clair', 'Pont de Veyle', 'Saint-Quentin-Fallavier','Quincieux','Lyon nord']
@@ -20,13 +20,13 @@ l5=[gares[5],bifurcations[3],140,10.4,0,2]
 l6=[bifurcations[3], gares[6],140, 1.6, 1, 4]
 l7=[gares[6], chgmt_vitesse[2], 140, 11, 1,4]
 l8=[chgmt_vitesse[2], bifurcations[0],40,3,1,4]
-l9=[bifurcations[0],gares[0],90,4,1,4]
+l9=[bifurcations[0],gares[0],40,4,1,4]
 
 l10=[gares[1],gares[16],95,42,0,2]
 l11=[gares[16], chgmt_vitesse[1], 140,32,0,2]
 l12=[chgmt_vitesse[1], gares[15],100,14,0,2]
 
-l13=[gares[0],chgmt_nb_voies[0],90,2.5,1,4]
+l13=[gares[0],chgmt_nb_voies[0],40,2.5,1,4]
 l14=[chgmt_nb_voies[0],chgmt_vitesse[0],90,5.5,1,2]
 l15=[chgmt_vitesse[0],gares[12],115,16,1,2]
 l16=[gares[12],gares[13],125,16,1,2]
@@ -37,13 +37,14 @@ l19=[bifurcations[3], gares[6],160, 1.6, 1, 4]
 l20=[bifurcations[3],gares[7],160,15,1,2]
 l21=[gares[7],gares[8],160,38,1,2]
 
-l22=[gares[0],gares[35], 150,20,1,4]
-l23=[gares[35],gares[36], 120,10,1,2]
+l22=[gares[0], chgmt_vitesse[3],40,4,1,4]
+l22bis=[chgmt_vitesse[3],gares[35],150,16,1,4]
+l23=[gares[35],gares[36],120,10,1,2]
 l24=[gares[36],gares[37],140,33,1,2]
 l25=[gares[37],gares[38],140,27,1,2]
 l26=[gares[38],gares[39],140,18,1,2]
 
-l27=[gares[0],gares[34],90,7,1,4]
+l27=[gares[0],gares[34],40,7,1,4]
 l28=[gares[34],chgmt_nb_voies[1],160,4,1,3]
 l28bis=[chgmt_nb_voies[1],bifurcations[2],160,12,1,2]
 l29=[bifurcations[2],gares[33],160,14,1,2]
@@ -83,12 +84,10 @@ l56=[gares[18],gares[19],115,51,1,2]
 l57=[gares[19],gares[20],130,26,1,2]
 
 l58=[gares[42],bifurcations[4],300,60,1,2]
-l59=[bifurcations[4],gares[43],300,27,1,2]
-l60=[gares[43],bifurcations[2],300,13,1,2]
-l61=[bifurcations[2],gares[40],300,80,1,2]
-l62=[gares[40],gares[44],300,30,1,2]
+l59=[bifurcations[4],bifurcations[2],300,40,1,2]
+l60=[bifurcations[2],gares[43],300,110,1,2]
 
-l63=[bifurcations[4],gares[11],300,7,1,2]
+l61=[bifurcations[4],gares[11],300,7,1,2]
 
 
 
@@ -96,7 +95,7 @@ Ligne_Roanne_Lyon = [l1, l2, l3, l4,l5,l6,l7,l8,l9]
 Ligne_Roanne_SaintEtienne =[l10,l11,l12]
 Ligne_Lyon_SaintEtienne=[l13,l14,l15,l16,l17,l18]
 Ligne_Lyon_Macon=[l9,l8,l7,l19,l20,l21]
-Ligne_Lyon_Valence=[l22,l23,l24,l25,l26]
+Ligne_Lyon_Valence=[l22,l22bis,l23,l24,l25,l26]
 Ligne_Lyon_Grenoble=[l27,l28,l28bis,l29,l30,l31,l32,l33,l34,l35,l36]
 Ligne_Valence_Grenoble=[l37,l38,l39,l40,l41,l42,l36]
 Ligne_Grenoble_Chambery=[l43,l44,l45]
@@ -105,6 +104,6 @@ Ligne_Lyon_BourgEnBresse=[l9,l49,l50,l51]
 Ligne_BourgEnBress_Macon=[l52,l53]
 Ligne_Lyon_Chambery=[l9,l54,l55,l56,l57,l46]
 
-TGV_MâconLochéTGV_Lyon=[l58,l63,l49,l9]
-TGV_MâconLochéTGV_Sud=[l58,l59,l60,l61,l62]
-TGV_Sud_Lyon=[l62,l61,l28bis,l28,l27]
+TGV_MâconLochéTGV_Lyon=[l58,l61,l49,l9]
+TGV_MâconLochéTGV_Sud=[l58,l59,l60]
+TGV_Sud_Lyon=[l60,l28bis,l28,l27]
