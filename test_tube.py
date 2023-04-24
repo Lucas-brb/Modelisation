@@ -11,7 +11,6 @@
 
 from Carac_trains import *
 from acceleration_train import *
-from Carac_trains import *
 
 t1 = ['Roanne', 'Feurs', 95, 42, 0, 2]
 t2 = ['Feurs', 'Saint Just Saint Rambert', 140, 32, 0, 2]

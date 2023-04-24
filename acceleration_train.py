@@ -9,6 +9,8 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 import numpy as np
+import matplotlib.pyplot as plt
+import time
 
 """Le code suivant va permettre de calculer l'accélération d'un train en fonction de sa vitesse actuelle.
 Pour ce faire nous allons renseigner les données contenues dans Excel et les implémenter dans python.
@@ -174,12 +176,34 @@ def temps_parcours_ligne(ligne, train):
     '''
     temps_parcours = 0
     v_sortie = 0
+    heures = [0]
+    d_cumulee = 0
+    distances = [0]
     for i in range(len(ligne)):
         ti = ligne[i]
         if i != len(ligne)-1:
             ti1 = ligne[i+1] # on va avoir besoin de la vitesse limite suivante
             temps, v_sortie = transition_troncon(v_sortie, ti[2], ti1[2], ti[3], train)
             temps_parcours += temps
+            heures.append(temps_parcours/60)
+            d_cumulee += ti[3]
+            distances.append(d_cumulee)
         else :
             temps_parcours += transition_troncon(v_sortie, ti[2], 0, ti[3], train)[0]
+            heures.append(temps_parcours/60)
+            d_cumulee += ti[3]
+            distances.append(d_cumulee)
+    axes = plt.axes()
+    plt.plot(heures, distances)
+    gares = ['Roanne', 'Feurs', 'Saint Just Saint Rambert', 'Saint Etienne']
+    heures = ['6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00']
+    axes.set_yticks([0, 42, 74, 88])
+    axes.set_xticks([k*60 for k in range(18)])
+    axes.set_yticklabels(gares)
+    axes.set_xticklabels(heures)
+    plt.xlim(0,17*60)
+    plt.xticks(rotation = 90)
+    plt.show()
+    time.sleep(1)
+    plt.close()
     return round(temps_parcours/60) # temps de parcours en minutes
