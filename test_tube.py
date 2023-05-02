@@ -17,4 +17,6 @@ t2 = ['Feurs', 'Saint Just Saint Rambert', 140, 32, 0, 2]
 t3 = ['Saint Just Saint Rambert', 'Saint Etienne', 100, 14, 0, 2]
 ligne = [t1, t2, t3]
 
+t1 = time.time()
 print(temps_parcours_ligne(ligne, Ter_regiolis))
+print(time.time() - t1)

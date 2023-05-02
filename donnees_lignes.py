@@ -102,9 +102,11 @@ Ligne_Valence_Grenoble=[l37,l38,l39,l40,l41,l42,l36]
 Ligne_Grenoble_Chambery=[l43,l44,l45]
 Ligne_Chambery_Annecy=[l46,l47,l48]
 Ligne_Lyon_BourgEnBresse=[l9,l49,l50,l51]
-Ligne_BourgEnBress_Macon=[l52,l53]
+Ligne_BourgEnBresse_Macon=[l52,l53]
 Ligne_Lyon_Chambery=[l9,l54,l55,l56,l57,l46]
 
 TGV_MâconLochéTGV_Lyon=[l58,l61,l49,l9]
 TGV_MâconLochéTGV_Sud=[l58,l59,l60]
 TGV_Sud_Lyon=[l60,l28bis,l28,l27]
+
+toutes_lignes = [Ligne_Roanne_Lyon, Ligne_Roanne_SaintEtienne, Ligne_Lyon_SaintEtienne, Ligne_Lyon_Macon, Ligne_Lyon_Valence, Ligne_Lyon_Grenoble, Ligne_Valence_Grenoble, Ligne_Grenoble_Chambery, Ligne_Chambery_Annecy, Ligne_Lyon_BourgEnBresse, Ligne_BourgEnBresse_Macon, Ligne_Lyon_Chambery, TGV_MâconLochéTGV_Lyon, TGV_MâconLochéTGV_Sud, TGV_Sud_Lyon]
