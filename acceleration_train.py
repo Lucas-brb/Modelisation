@@ -172,7 +172,8 @@ def temps_parcours_ligne(ligne, train):
         ligne : la ligne considérée
         train : le type de train considéré
     Sortie :
-        temps_parcours : le temps mis par le train pour parcourir la ligne
+        heures : la liste des temps de passage en minutes aux différents noeuds de la ligne
+        distances : la distance totale parcourue entre les noeuds
     '''
     temps_parcours = 0
     v_sortie = 0
@@ -193,4 +194,4 @@ def temps_parcours_ligne(ligne, train):
             heures.append(temps_parcours/60)
             d_cumulee += ti[3]
             distances.append(d_cumulee)
-    return heures, distances # horaire de passage à chaque noeud (en minutes à partir de 0)
+    return heures, distances
