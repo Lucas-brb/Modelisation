@@ -109,4 +109,5 @@ TGV_MâconLochéTGV_Lyon=[[l58,l61,l49,l9], all([l58[4],l61[4],l49[4],l9[4]])]
 TGV_MâconLochéTGV_Sud=[[l58,l59,l60], all([l58[4],l59[4],l60[4]])]
 TGV_Sud_Lyon=[[l60,l28bis,l28,l27], all([l60[4],l28bis[4],l28[4],l27[4]])]
 
+# peut-être pas utile
 troncons_lignes = {'Roanne-Lyon' : Ligne_Roanne_Lyon[0], 'Roanne-Saint-Etienne' : Ligne_Roanne_SaintEtienne[0], 'Lyon-Saint-Etienne' : Ligne_Lyon_SaintEtienne[0], 'Lyon-Macon' : Ligne_Lyon_Macon[0], 'Lyon-Valence' : Ligne_Lyon_Valence[0], 'Lyon-Grenoble' : Ligne_Lyon_Grenoble[0], 'Valence-Grenoble' : Ligne_Valence_Grenoble[0], 'Grenoble-Chambery' : Ligne_Grenoble_Chambery[0], 'Chambery-Annecy' : Ligne_Chambery_Annecy[0], 'Lyon-Bourg-en-Bresse' : Ligne_Lyon_BourgEnBresse[0], 'Bourg-en-Bresse-Macon' : Ligne_BourgEnBresse_Macon[0], 'Lyon-Chambery' : Ligne_Lyon_Chambery[0], 'TGV Macon-Loché-Lyon' : TGV_MâconLochéTGV_Lyon[0], 'TGV Mâcon-Loché-Sud' : TGV_MâconLochéTGV_Sud[0], 'TGV Sud-Lyon' : TGV_Sud_Lyon[0]}
