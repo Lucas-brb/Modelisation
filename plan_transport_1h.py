@@ -48,6 +48,9 @@ def Ajout_train(plan, lignesOK):
         lignesOK[ind_ligne] = False
         return Ajout_train(plan, lignesOK)
 
+def verif_troncon_1voie(plan, troncon_verif):
+
+
 def verif_plan_1h(plan, troncons_verif):
     """
 
