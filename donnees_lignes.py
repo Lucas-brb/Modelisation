@@ -91,7 +91,8 @@ l60=[bifurcations[2],gares[43],300,110,1,2]
 l61=[bifurcations[4],gares[11],300,7,1,2]
 
 
-
+#Récapitulatif des lignes et de leurs tronçons
+#utilisation de la fonction python 'all' pour vérifier si tous les tronçons sont électrifiés
 Ligne_Roanne_Lyon = [[l1,l2,l3,l4,l5,l6,l7,l8,l9], [all([l1[4],l2[4],l3[4],l4[4],l5[4],l6[4],l7[4],l8[4],l9[4]])]]
 Ligne_Roanne_SaintEtienne = [[l10,l11,l12], all([l10[4],l11[4],l12[4]])]
 Ligne_Lyon_SaintEtienne=[[l13,l14,l15,l16,l17,l18], all([l13[4],l14[4],l15[4],l16[4],l17[4],l18[4]])]
@@ -111,3 +112,113 @@ TGV_Sud_Lyon=[[l60,l28bis,l28,l27], all([l60[4],l28bis[4],l28[4],l27[4]])]
 
 # peut-être pas utile
 troncons_lignes = {'Roanne-Lyon' : Ligne_Roanne_Lyon[0], 'Roanne-Saint-Etienne' : Ligne_Roanne_SaintEtienne[0], 'Lyon-Saint-Etienne' : Ligne_Lyon_SaintEtienne[0], 'Lyon-Macon' : Ligne_Lyon_Macon[0], 'Lyon-Valence' : Ligne_Lyon_Valence[0], 'Lyon-Grenoble' : Ligne_Lyon_Grenoble[0], 'Valence-Grenoble' : Ligne_Valence_Grenoble[0], 'Grenoble-Chambery' : Ligne_Grenoble_Chambery[0], 'Chambery-Annecy' : Ligne_Chambery_Annecy[0], 'Lyon-Bourg-en-Bresse' : Ligne_Lyon_BourgEnBresse[0], 'Bourg-en-Bresse-Macon' : Ligne_BourgEnBresse_Macon[0], 'Lyon-Chambery' : Ligne_Lyon_Chambery[0], 'TGV Macon-Loché-Lyon' : TGV_MâconLochéTGV_Lyon[0], 'TGV Mâcon-Loché-Sud' : TGV_MâconLochéTGV_Sud[0], 'TGV Sud-Lyon' : TGV_Sud_Lyon[0]}
+
+
+#gares déservies pour chaque ligne
+#Sous forme de dictionnaire :
+#mon_dico={'villedépart_villefin': 'gare_1, gare_2,...', 'ligne2':'gare1, gare2,...',...}
+
+gares_deservies={'Roanne_Lyon':[gares[2], gares[3], gares[4], gares[5], gares[6]], 'Roanne_StEtienne':[gares[16]],'Lyon_StEtienne':[gares[12],gares[13],gares[14]],'Lyon_Macon':[gares[6],gares[7]],'Lyon_Valence':[gares[35],gares[36],gares[37],gares[38]],'Lyon_Grenoble':[gares[34],gares[33],gares[32],gares[31],gares[30],gares[29],gares[28],gares[27]],'Valence_Grenoble':[gares[40],gares[41],gares[27]],'Grenoble_Chambery':[gares[25],gares[24]],'Chambery_Annecy':[gares[20],gares[21]],'Lyon_BourgEnBresse':[gares[11],gares[10]],'BourgEnBresse_Macon':[' '],'Lyon_Chambery':[gares[17],gares[18],gares[19],gares[20]],'MaconLocheTGV_Lyon':[gares[11]],'MaconLoche_Sud':[' '],'Sud_Lyon':[' ']}
+
+
+#J'AI PAS POUR TARARE
+#Nombre de voies par gare
+nb_voies_gares={'Lyon':11,'Roanne':3, 'Amplepuis':2, 'Tarare':, 'Arbesle':4, 'Lozanne':4, 'Saint Germain':4, 'Villefranche':5, 'Mâcon':6, 'Bourg-en-Bresse':7, 'Villars':3, 'Sathonay':4, 'Givors':5, 'Rive de Gier':2, 'Saint Chamond':2, 'Saint Etienne':6, 'Feurs':2, 'Montluel':3, 'Ambérieu':6, 'Culoz':5, 'Aix-les-bains':5, 'Rumilly':2, 'Annecy':5, 'Chambéry':6, 'Montmélian':4, 'Grenoble université':4, 'Grenoble':7, 'Moirans':4, 'Voiron':2, 'Rives':3, 'Saint André':4, 'Tour du Pin':2, 'Bourgoin':3, "Isle d'Abeau":2, 'Vénissieux':3, 'Chasse sur Rhône':4, 'Vienne':5,'Saint Rambert':5, 'Tain':2, 'Valence':7, 'Valence TGV':7, 'Romans':2}
+
+
+
+
+
+
+
+
+#Création des lignes dans l'autre sens :
+Lyon_Roanne=list(reversed(Ligne_Roanne_Lyon[0]))+[Ligne_Roanne_Lyon[-1]]
+StEtienne_Roanne=list(reversed(Ligne_Roanne_SaintEtienne[0]))+[Ligne_Roanne_SaintEtienne[-1]]
+SaintEtienne_Lyon=list(reversed(Ligne_Lyon_SaintEtienne[0]))+[Ligne_Lyon_SaintEtienne[-1]]
+Macon_Lyon=list(reversed(Ligne_Lyon_Macon[0]))+[Ligne_Lyon_Macon[-1]]
+Valence_Lyon=list(reversed(Ligne_Lyon_Valence[0]))+[Ligne_Lyon_Valence[-1]]
+Grenoble_Lyon=list(reversed(Ligne_Lyon_Grenoble[0]))+[Ligne_Lyon_Grenoble[-1]]
+Grenoble_Valence=list(reversed(Ligne_Valence_Grenoble[0]))+[Ligne_Valence_Grenoble[-1]]
+Chambery_Grenoble=list(reversed(Ligne_Grenoble_Chambery[0]))+[Ligne_Grenoble_Chambery[-1]]
+Annecy_Chambery=list(reversed(Ligne_Chambery_Annecy[0]))+[Ligne_Chambery_Annecy[-1]]
+BourgEnBresse_Lyon=list(reversed(Ligne_Lyon_BourgEnBresse[0]))+[Ligne_Lyon_BourgEnBresse[-1]]
+Macon_BourgEnBresse=list(reversed(Ligne_BourgEnBresse_Macon[0]))+[Ligne_BourgEnBresse_Macon[-1]]
+Chambery_Lyon=list(reversed(Ligne_Lyon_Chambery[0]))+[Ligne_Lyon_Chambery[-1]]
+Lyon_MâconLochéTGV=list(reversed(TGV_MâconLochéTGV_Lyon[0]))+[TGV_MâconLochéTGV_Lyon[-1]]
+Sud_MâconLochéTGV=list(reversed(TGV_MâconLochéTGV_Sud[0]))+[TGV_MâconLochéTGV_Sud[-1]]
+Lyon_Sud=list(reversed(TGV_Sud_Lyon[0]))+[TGV_Sud_Lyon[-1]]
+
+Ligne_Lyon_Roanne=[]
+Ligne_StEtienne_Roanne=[]
+Ligne_SaintEtienne_Lyon=[]
+Ligne_Macon_Lyon=[]
+Ligne_Valence_Lyon=[]
+Ligne_Grenoble_Lyon=[]
+Ligne_Grenoble_Valence=[]
+Ligne_Chambery_Grenoble=[]
+Ligne_Annecy_Chambery=[]
+Ligne_BourgEnBresse_Lyon=[]
+Ligne_Macon_BourgEnBresse=[]
+Ligne_Chambery_Lyon=[]
+TGV_Lyon_MâconLochéTGV=[]
+TGV_Sud_MâconLochéTGV=[]
+TGV_Lyon_Sud=[]
+
+
+
+
+
+
+##Faux --> faut inverser l'ordre les 2 gares dans les tronçons
+for i in range(0,6):
+    if i == 0:
+        Ligne_Lyon_Roanne[i]= Lyon_Roanne[1]
+        Ligne_StEtienne_Roanne[i]=StEtienne_Roanne[1]
+        Ligne_SaintEtienne_Lyon[i]=SaintEtienne_Lyon[1]
+        Ligne_Macon_Lyon[i]=Macon_Lyon[1]
+        Ligne_Valence_Lyon[i]=Valence_Lyon[1]
+        Ligne_Grenoble_Lyon[i]=Grenoble_Lyon[1]
+        Ligne_Grenoble_Valence[i]=Grenoble_Valence[1]
+        Ligne_Chambery_Grenoble[i]=Chambery_Grenoble[1]
+        Ligne_Annecy_Chambery[i]=Annecy_Chambery[1]
+        Ligne_BourgEnBresse_Lyon[i]=BourgEnBresse_Lyon[1]
+        Ligne_Macon_BourgEnBresse[i]=Macon_BourgEnBresse[1]
+        Ligne_Chambery_Lyon[i]=Chambery_Lyon[1]
+        TGV_Lyon_MâconLochéTGV[i]=Lyon_MâconLochéTGV[1]
+        TGV_Sud_MâconLochéTGV[i]=Sud_MâconLochéTGV[1]
+        TGV_Lyon_Sud[i]=Lyon_Sud[1]
+    if i == 1:
+        Ligne_Lyon_Roanne[i]= Lyon_Roanne[0]
+        Ligne_StEtienne_Roanne[i]=StEtienne_Roanne[0]
+        Ligne_SaintEtienne_Lyon[i]=SaintEtienne_Lyon[0]
+        Ligne_Macon_Lyon[i]=Macon_Lyon[0]
+        Ligne_Valence_Lyon[i]=Valence_Lyon[0]
+        Ligne_Grenoble_Lyon[i]=Grenoble_Lyon[0]
+        Ligne_Grenoble_Valence[i]=Grenoble_Valence[0]
+        Ligne_Chambery_Grenoble[i]=Chambery_Grenoble[0]
+        Ligne_Annecy_Chambery[i]=Annecy_Chambery[0]
+        Ligne_BourgEnBresse_Lyon[i]=BourgEnBresse_Lyon[0]
+        Ligne_Macon_BourgEnBresse[i]=Macon_BourgEnBresse[0]
+        Ligne_Chambery_Lyon[i]=Chambery_Lyon[0]
+        TGV_Lyon_MâconLochéTGV[i]=Lyon_MâconLochéTGV[0]
+        TGV_Sud_MâconLochéTGV[i]=Sud_MâconLochéTGV[0]
+        TGV_Lyon_Sud[i]=Lyon_Sud[0]
+    if i>1:
+        Ligne_Lyon_Roanne[i]= Lyon_Roanne[i]
+        Ligne_StEtienne_Roanne[i]=StEtienne_Roanne[i]
+        Ligne_SaintEtienne_Lyon[i]=SaintEtienne_Lyon[i]
+        Ligne_Macon_Lyon[i]=Macon_Lyon[i]
+        Ligne_Valence_Lyon[i]=Valence_Lyon[i]
+        Ligne_Grenoble_Lyon[i]=Grenoble_Lyon[i]
+        Ligne_Grenoble_Valence[i]=Grenoble_Valence[i]
+        Ligne_Chambery_Grenoble[i]=Chambery_Grenoble[i]
+        Ligne_Annecy_Chambery[i]=Annecy_Chambery[i]
+        Ligne_BourgEnBresse_Lyon[i]=BourgEnBresse_Lyon[i]
+        Ligne_Macon_BourgEnBresse[i]=Macon_BourgEnBresse[i]
+        Ligne_Chambery_Lyon[i]=Chambery_Lyon[i]
+        TGV_Lyon_MâconLochéTGV[i]=Lyon_MâconLochéTGV[i]
+        TGV_Sud_MâconLochéTGV[i]=Sud_MâconLochéTGV[i]
+        TGV_Lyon_Sud[i]=Lyon_Sud[i]
+
+print(Ligne_Lyon_Roanne)
