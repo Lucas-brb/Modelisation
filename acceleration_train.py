@@ -165,26 +165,37 @@ def transition_troncon(v_actuelle, v_troncon1, v_troncon2, l_troncon, train) :
             v_sortie = v_troncon1
     return temps, v_sortie
 
-def temps_parcours_ligne(ligne, train):
+def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
     '''
-    Calclue le temps de parcour d'une lign pour un type de train.
+    Calclue le temps de parcour d'une ligne pour un type de train.
     Entrées :
         ligne : la ligne considérée
         train : le type de train considéré
+        min_depart : la minute de départ du train
+        gares_desservies : liste des gares desservies sur la ligne
     Sortie :
-        heures : la liste des temps de passage en minutes aux différents noeuds de la ligne
+        heures : la liste des temps d'entrée et de sortie dans les tronçons qui constituent la ligne
         distances : la distance totale parcourue entre les noeuds
     '''
-    temps_parcours = 0
+    temps_parcours = min_depart
     v_sortie = 0
-    heures = [0]
+    heures = [temps_parcours]
     d_cumulee = 0
     distances = [0]
     for i in range(len(ligne)):
         ti = ligne[i]
         if i != len(ligne)-1:
-            ti1 = ligne[i+1] # on va avoir besoin de la vitesse limite suivante
-            temps, v_sortie = transition_troncon(v_sortie, ti[2], ti1[2], ti[3], train)
+            if ti[1] in gares_desservies:
+                temps, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
+                temps_parcours += temps
+                heures.append(temps_parcours/60)
+                temps_parcours += 2
+                d_cumulee += ti[3]
+                distances.append(d_cumulee)
+                distances.append(d_cumulee)
+            else:
+                ti1 = ligne[i+1] # on va avoir besoin de la vitesse limite suivante
+                temps, v_sortie = transition_troncon(v_sortie, ti[2], ti1[2], ti[3], train)
             temps_parcours += temps
             heures.append(temps_parcours/60)
             d_cumulee += ti[3]
