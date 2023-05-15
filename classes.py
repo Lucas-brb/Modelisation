@@ -9,15 +9,17 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 
-class Pile(object):
+class File(object):
     def __init__(self):
-        self.pile = []
+        self.file = []
     def taille(self):
-        return len(self.pile)
-    def empile(self,x):
-        self.pile.append(x)
-    def depile(self):
+        return len(self.file)
+    def entree(self,x):
+        self.file.append(x)
+    def sortie(self):
         if self.taille != 0 :
-            self.pile.pop()
+            self.file.pop(0)
     def voir(self):
-        print(self.pile)
+        print(self.file)
+    def dernier_elt(self):
+        return self.file[0]
