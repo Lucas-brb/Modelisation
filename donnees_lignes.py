@@ -123,7 +123,7 @@ gares_deservies={'Roanne_Lyon':[gares[2], gares[3], gares[4], gares[5], gares[6]
 
 #J'AI PAS POUR TARARE
 #Nombre de voies par gare
-nb_voies_gares={'Lyon':11,'Roanne':3, 'Amplepuis':2, 'Tarare':, 'Arbesle':4, 'Lozanne':4, 'Saint Germain':4, 'Villefranche':5, 'Mâcon':6, 'Bourg-en-Bresse':7, 'Villars':3, 'Sathonay':4, 'Givors':5, 'Rive de Gier':2, 'Saint Chamond':2, 'Saint Etienne':6, 'Feurs':2, 'Montluel':3, 'Ambérieu':6, 'Culoz':5, 'Aix-les-bains':5, 'Rumilly':2, 'Annecy':5, 'Chambéry':6, 'Montmélian':4, 'Grenoble université':4, 'Grenoble':7, 'Moirans':4, 'Voiron':2, 'Rives':3, 'Saint André':4, 'Tour du Pin':2, 'Bourgoin':3, "Isle d'Abeau":2, 'Vénissieux':3, 'Chasse sur Rhône':4, 'Vienne':5,'Saint Rambert':5, 'Tain':2, 'Valence':7, 'Valence TGV':7, 'Romans':2}
+nb_voies_gares={'Lyon':11,'Roanne':3, 'Amplepuis':2, 'Tarare':2, 'Arbesle':4, 'Lozanne':4, 'Saint Germain':4, 'Villefranche':5, 'Mâcon':6, 'Bourg-en-Bresse':7, 'Villars':3, 'Sathonay':4, 'Givors':5, 'Rive de Gier':2, 'Saint Chamond':2, 'Saint Etienne':6, 'Feurs':2, 'Montluel':3, 'Ambérieu':6, 'Culoz':5, 'Aix-les-bains':5, 'Rumilly':2, 'Annecy':5, 'Chambéry':6, 'Montmélian':4, 'Grenoble université':4, 'Grenoble':7, 'Moirans':4, 'Voiron':2, 'Rives':3, 'Saint André':4, 'Tour du Pin':2, 'Bourgoin':3, "Isle d'Abeau":2, 'Vénissieux':3, 'Chasse sur Rhône':4, 'Vienne':5,'Saint Rambert':5, 'Tain':2, 'Valence':7, 'Valence TGV':7, 'Romans':2}
 
 
 
