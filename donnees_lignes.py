@@ -121,7 +121,6 @@ troncons_lignes = {'Roanne-Lyon' : Ligne_Roanne_Lyon[0], 'Roanne-Saint-Etienne' 
 gares_deservies={'Roanne_Lyon':[gares[2], gares[3], gares[4], gares[5], gares[6]], 'Roanne_StEtienne':[gares[16]],'Lyon_StEtienne':[gares[12],gares[13],gares[14]],'Lyon_Macon':[gares[6],gares[7]],'Lyon_Valence':[gares[35],gares[36],gares[37],gares[38]],'Lyon_Grenoble':[gares[34],gares[33],gares[32],gares[31],gares[30],gares[29],gares[28],gares[27]],'Valence_Grenoble':[gares[40],gares[41],gares[27]],'Grenoble_Chambery':[gares[25],gares[24]],'Chambery_Annecy':[gares[20],gares[21]],'Lyon_BourgEnBresse':[gares[11],gares[10]],'BourgEnBresse_Macon':[' '],'Lyon_Chambery':[gares[17],gares[18],gares[19],gares[20]],'MaconLocheTGV_Lyon':[gares[11]],'MaconLoche_Sud':[' '],'Sud_Lyon':[' ']}
 
 
-#J'AI PAS POUR TARARE
 #Nombre de voies par gare
 nb_voies_gares={'Lyon':11,'Roanne':3, 'Amplepuis':2, 'Tarare':2, 'Arbesle':4, 'Lozanne':4, 'Saint Germain':4, 'Villefranche':5, 'Mâcon':6, 'Bourg-en-Bresse':7, 'Villars':3, 'Sathonay':4, 'Givors':5, 'Rive de Gier':2, 'Saint Chamond':2, 'Saint Etienne':6, 'Feurs':2, 'Montluel':3, 'Ambérieu':6, 'Culoz':5, 'Aix-les-bains':5, 'Rumilly':2, 'Annecy':5, 'Chambéry':6, 'Montmélian':4, 'Grenoble université':4, 'Grenoble':7, 'Moirans':4, 'Voiron':2, 'Rives':3, 'Saint André':4, 'Tour du Pin':2, 'Bourgoin':3, "Isle d'Abeau":2, 'Vénissieux':3, 'Chasse sur Rhône':4, 'Vienne':5,'Saint Rambert':5, 'Tain':2, 'Valence':7, 'Valence TGV':7, 'Romans':2}
 
