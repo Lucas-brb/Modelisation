@@ -55,9 +55,11 @@ def verif_troncon_1voie(plan, troncon_verif, h_max):
     lignes_regardees_pos = []
     lignes_regardees_neg = []
     for ligne in range(len(plan[0])):
-        if troncon_verif in troncons_lignes[plan[0][ligne]][0]:
-            if
-            lignes_regardees.append(ligne)
+        if troncon_verif in troncons_lignes[plan[0][ligne]][0]: # on prend la liste des trançons qui se situe dans le dico troncons_lignes
+            if troncons_lignes[plan[0][ligne]][1] == True:
+                lignes_regardees_pos.append(ligne)
+            else :
+                lignes_regardees_neg.append(ligne)
     for t in range(h_max+1):
 
 
