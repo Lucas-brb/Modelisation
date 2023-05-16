@@ -1,25 +1,26 @@
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
-fig, ax =plt.subplots(1,1)
-data=[["Lyon","1","2","","","5","6","","8","9","10","11","","13"],
+fig = plt.figure(figsize=(21,8))
+ax = fig.add_subplot(111)
+data=[["Lyon","1","2","","","5","6","","8","9","10","11","","13",],
       ["Chasse s/ Rhône","1","","","","","","","","","","","",""],
       ["Saint-Etienne","1","","","","","","","","","","","",""],
       ["Vienne","1","","","","","","","","","","","",""],
-      ["Saint-Rambert d Albon'","1","","","","","","","","","","","",""],
-      ["Tain l hermitage - Tournon","1","","","","","","","","","","","",""],
+      ["Saint-Rambert","1","","","","","","","","","","","",""],
+      ["Tain","1","","","","","","","","","","","",""],
       ["Valence Ville","1","","3","","","","","","","","","",""],
       ["Valence TGV","1","","3","","","","","","","","","",""],
       ["Vénissieux","","2","","","","","","","","","","",""],
       ["Isle d Abeau","","2","","","","","","","","","","",""],
-      ["Bourgoin Jailleu","","2","","","","","","","","","","",""],
+      ["Bourgoin","","2","","","","","","","","","","",""],
       ["La Tour du Pin","","2","","","","","","","","","","",""],
       ["Saint André","","2","","","","","","","","","","",""],
       ["Rives","","2","","","","","","","","","","",""],
       ["Voiron","","2","","","","","","","","","","",""],
       ["Moirans","","2","3","","","","","","","","","",""],
       ["Grenoble","","2","3","4","","","","","","","","",""],
-      ["Grenoble Universités","","","","4","","","","","","","","",""],
+      ["Grenoble Univ","","","","4","","","","","","","","",""],
       ["Montmélian","","","","4","","","","","","","","",""],
       ["Montluer","","","","","5","6","","","","","","",""],
       ["Ambérieu","","","","","5","6","","","","","","",""],
@@ -44,9 +45,8 @@ data=[["Lyon","1","2","","","5","6","","8","9","10","11","","13"],
       ["Amplepuis","","","","","","","","","","","","","13"],
       ["Roanne","","","","","","","","","","","","12","13"]
       ]
-column_labels=["Gares", "Heure de départ ligne 1", "Heure de départ ligne 2", "Heure de départ ligne 3","Heure de départ ligne 4","Heure de départ ligne 5","Heure de départ ligne 6","Heure de départ ligne 7","Heure de départ ligne 8","Heure de départ ligne 9","Heure de départ ligne 10","Heure de départ ligne 11","Heure de départ ligne 12","Heure de départ ligne 13"]
+column_labels=["Gares", "Départ ligne 1", "Départ ligne 2", "Départ ligne 3","Départ ligne 4","Départ ligne 5","Départ ligne 6","Départ ligne 7","Départ ligne 8","Départ ligne 9","Départ ligne 10","Départ ligne 11","Départ ligne 12","Départ ligne 13"]
 ax.axis('tight')
 ax.axis('off')
 ax.table(cellText=data,colLabels=column_labels,loc="center")
-
 plt.show()
