@@ -174,14 +174,15 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
         min_depart : la minute de départ du train
         gares_desservies : liste des gares desservies sur la ligne
     Sortie :
-        heures : la liste des temps d'entrée et de sortie dans les tronçons qui constituent la ligne
-        distances : la distance totale parcourue entre les noeuds
+        heures : la liste des temps d'arrivée à chaque noeud qui constitue la ligne (en mn)
+        distances : la distance totale parcourue entre les noeuds (en km)
+    Remarque : si on a un arrêt en gare, on duplique le noeud et on rajoute 2mn
     '''
     temps_parcours = min_depart
     v_sortie = 0
     heures = [temps_parcours]
     d_cumulee = 0
-    distances = [0]
+    distances = [d_cumulee]
     for i in range(len(ligne)):
         ti = ligne[i]
         if i != len(ligne)-1:
@@ -189,20 +190,25 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
                 temps, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
                 temps_parcours += temps
                 heures.append(temps_parcours/60)
-                temps_parcours += 2
                 d_cumulee += ti[3]
                 distances.append(d_cumulee)
+                temps_parcours += 2
+                heures.append(temps_parcours/60)
                 distances.append(d_cumulee)
             else:
                 ti1 = ligne[i+1] # on va avoir besoin de la vitesse limite suivante
                 temps, v_sortie = transition_troncon(v_sortie, ti[2], ti1[2], ti[3], train)
-            temps_parcours += temps
-            heures.append(temps_parcours/60)
-            d_cumulee += ti[3]
-            distances.append(d_cumulee)
+                temps_parcours += temps
+                heures.append(temps_parcours/60)
+                d_cumulee += ti[3]
+                distances.append(d_cumulee)
         else :
             temps_parcours += transition_troncon(v_sortie, ti[2], 0, ti[3], train)[0]
             heures.append(temps_parcours/60)
             d_cumulee += ti[3]
             distances.append(d_cumulee)
     return heures, distances
+
+def entree_sortie_troncon(heures, distances, ligne):
+    """
+    """
