@@ -5,7 +5,6 @@ gares = ['Lyon', 'Roanne', 'Amplepuis', 'Tarare', 'Arbesle', 'Lozanne', 'Saint G
 
 chgmt_vitesse=['Oullins', 'Saint Just Saint Rambert', 'fin tronçon imposé nord', 'fin tronçon imposé sud']
 
-
 bifurcations=['Lyon Saint Clair', 'Pont de Veyle', 'Saint-Quentin-Fallavier','Quincieux','Lyon nord']
 
 chgmt_nb_voies=['Perrache', 'Saint Priest','Saint Hilaire ouest','Saint Hilaire est','Saint Marcelin']

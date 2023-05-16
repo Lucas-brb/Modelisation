@@ -210,5 +210,28 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
     return heures, distances
 
 def entree_sortie_troncon(heures, distances, ligne):
-    """
-    """
+    '''Connaitre les heures d'entrée et de sortie de chaque tronçon pour une ligne donnée
+    Entrées:
+    ligne = [troncon 1, troncon 2,..., troncon n]
+    distances = [0, d1, d2, d2, d3,..., dn], on met 2 fois la même distance s'il y a une gare car le train ne bouge pas
+    heures = [0, heure 1, heure 2, heure 2 +2min, heure 3,..., heure n], lorsque le train passe par une gare il y a une pause de 2min
+
+    Sorties :
+    '''
+    horaires =[]
+    for k in range(1,len(distances)) :
+        if distances[k] != distances[k-1]:
+            horaires[k-1]=[heures[k-1], heures[k]]
+        else :
+            horaires[k-1]=[heures[k], heures[k+1]]
+            k+=1
+    L=[ligne,horaires]
+    return L
+
+
+#test
+heures=[0,5,10,30,32,30,32,20,22,25]
+distances=[0,2.5, 5.5,16,16,16,16,10,10,12]
+Ligne_Lyon_SaintEtienne=[[l13,l14,l15,l16,l17,l18], [True, True, True, True, True, True], all([l13[4],l14[4],l15[4],l16[4],l17[4],l18[4]])]
+
+print(entree_sortie_troncon(heures,distances,Ligne_Lyon_SaintEtienne))

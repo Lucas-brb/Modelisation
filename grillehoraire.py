@@ -1,9 +1,15 @@
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
+<<<<<<< Updated upstream
 fig = plt.figure(figsize=(21,8))
 ax = fig.add_subplot(111)
 data=[["Lyon","1","2","","","5","6","","8","9","10","11","","13",],
+=======
+
+fig, ax =plt.subplots(1,1)
+data=[["Lyon","1","2","","","5","6","","8","9","10","11","","13"],
+>>>>>>> Stashed changes
       ["Chasse s/ Rhône","1","","","","","","","","","","","",""],
       ["Saint-Etienne","1","","","","","","","","","","","",""],
       ["Vienne","1","","","","","","","","","","","",""],
