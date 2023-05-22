@@ -230,7 +230,7 @@ def entree_sortie_troncon(heures, distances, ligne):
 
 
 #test
-heures=[0,5,10,30,32,30,32,20,22,25]
+heures=[0,5,10,13,15,32,34,40,42,51]
 distances=[0,2.5, 5.5,16,16,16,16,10,10,12]
 Ligne_Lyon_SaintEtienne=[[l13,l14,l15,l16,l17,l18], [True, True, True, True, True, True], all([l13[4],l14[4],l15[4],l16[4],l17[4],l18[4]])]
 
