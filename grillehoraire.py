@@ -1,22 +1,30 @@
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
-<<<<<<< Updated upstream
+#Ligne 1 : Lyon-Valence
+#Ligne 2 : Lyon-Grenoble
+#Ligne 3 : Valence-Grenoble
+#Ligne 4 : Grenoble-Chambéry
+#Ligne 5 : Lyon-Chambéry
+#Ligne 6 : Lyon-Annecy
+#Ligne 7 : Chambéry-Annecy
+#Ligne 8 : Lyon-Bourg En Bresse
+#Ligne 9 : Lyon-Mâcon
+#Ligne 10 : Bourg En Bresse-Mâcon
+#Ligne 11 : Lyon-Saint Etienne
+#Ligne 12 : Saint Etienne-Roanne
+#Ligne 13 : Lyon-Roanne
+
 fig = plt.figure(figsize=(21,8))
 ax = fig.add_subplot(111)
-data=[["Lyon","1","2","","","5","6","","8","9","10","11","","13",],
-=======
-
-fig, ax =plt.subplots(1,1)
-data=[["Lyon","1","2","","","5","6","","8","9","10","11","","13"],
->>>>>>> Stashed changes
+data=[["Lyon","1","2","","","5","6","","8","9","","11","","13"],
       ["Chasse s/ Rhône","1","","","","","","","","","","","",""],
       ["Saint-Etienne","1","","","","","","","","","","","",""],
       ["Vienne","1","","","","","","","","","","","",""],
       ["Saint-Rambert","1","","","","","","","","","","","",""],
       ["Tain","1","","","","","","","","","","","",""],
       ["Valence Ville","1","","3","","","","","","","","","",""],
-      ["Valence TGV","1","","3","","","","","","","","","",""],
+      ["Valence TGV","","","3","","","","","","","","","",""],
       ["Vénissieux","","2","","","","","","","","","","",""],
       ["Isle d Abeau","","2","","","","","","","","","","",""],
       ["Bourgoin","","2","","","","","","","","","","",""],
