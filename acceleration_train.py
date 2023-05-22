@@ -218,7 +218,7 @@ def entree_sortie_troncon(heures, distances, ligne):
 
     Sorties :
     '''
-    horaires =[]
+    horaires =[0]*len(distances)
     for k in range(1,len(distances)) :
         if distances[k] != distances[k-1]:
             horaires[k-1]=[heures[k-1], heures[k]]
