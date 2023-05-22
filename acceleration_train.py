@@ -11,6 +11,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from donnees_lignes import *
 
 """Le code suivant va permettre de calculer l'accélération d'un train en fonction de sa vitesse actuelle.
 Pour ce faire nous allons renseigner les données contenues dans Excel et les implémenter dans python.

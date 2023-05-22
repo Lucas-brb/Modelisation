@@ -114,7 +114,7 @@ TGV_MâconLochéTGV_Sud=[[l58,l59,l60], [True, True, True], all([l58[4],l59[4],l
 TGV_Sud_Lyon=[[l60,l28bis,l28,l27bis,l27], [False, False, False, False, False], all([l60[4],l28bis[4],l28[4],l27bis[4],l27[4]])]
 
 # peut-être pas utile
-troncons_lignes = {'Roanne-Lyon' : Ligne_Roanne_Lyon[0], 'Roanne-Saint-Etienne' : Ligne_Roanne_SaintEtienne[0], 'Lyon-Saint-Etienne' : Ligne_Lyon_SaintEtienne[0], 'Lyon-Macon' : Ligne_Lyon_Macon[0], 'Lyon-Valence' : Ligne_Lyon_Valence[0], 'Lyon-Grenoble' : Ligne_Lyon_Grenoble[0], 'Valence-Grenoble' : Ligne_Valence_Grenoble[0], 'Grenoble-Chambery' : Ligne_Grenoble_Chambery[0], 'Chambery-Annecy' : Ligne_Chambery_Annecy[0], 'Lyon-Bourg-en-Bresse' : Ligne_Lyon_BourgEnBresse[0], 'Bourg-en-Bresse-Macon' : Ligne_BourgEnBresse_Macon[0], 'Lyon-Chambery' : Ligne_Lyon_Chambery[0], 'TGV Macon-Loché-Lyon' : TGV_MâconLochéTGV_Lyon[0], 'TGV Mâcon-Loché-Sud' : TGV_MâconLochéTGV_Sud[0], 'TGV Sud-Lyon' : TGV_Sud_Lyon[0]}
+troncons_lignes = {'Roanne-Lyon' : Ligne_Roanne_Lyon[0:2], 'Roanne-Saint-Etienne' : Ligne_Roanne_SaintEtienne[0:2], 'Lyon-Saint-Etienne' : Ligne_Lyon_SaintEtienne[0:2], 'Lyon-Macon' : Ligne_Lyon_Macon[0:2], 'Lyon-Valence' : Ligne_Lyon_Valence[0:2], 'Lyon-Grenoble' : Ligne_Lyon_Grenoble[0:2], 'Valence-Grenoble' : Ligne_Valence_Grenoble[0:2], 'Grenoble-Chambery' : Ligne_Grenoble_Chambery[0:2], 'Chambery-Annecy' : Ligne_Chambery_Annecy[0:2], 'Lyon-Bourg-en-Bresse' : Ligne_Lyon_BourgEnBresse[0:2], 'Bourg-en-Bresse-Macon' : Ligne_BourgEnBresse_Macon[0:2], 'Lyon-Chambery' : Ligne_Lyon_Chambery[0:2], 'TGV Macon-Loché-Lyon' : TGV_MâconLochéTGV_Lyon[0:2], 'TGV Mâcon-Loché-Sud' : TGV_MâconLochéTGV_Sud[0:2], 'TGV Sud-Lyon' : TGV_Sud_Lyon[0:2]}
 
 
 #gares déservies pour chaque ligne

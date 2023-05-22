@@ -25,4 +25,3 @@ class Occupation_tronçon(object):
         print(self.file)
     def dernier_elt(self):
         return self.file[-1]
-    def premier_elt
