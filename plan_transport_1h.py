@@ -78,7 +78,7 @@ def verif_troncon_1voie(plan, troncon_verif, h_max):
                 else :
                     if Occupation[-1][1] == heures_passage[ind_train][2]: # les deux trains sur le tronçon vont bien dans le même sens
                         # si les trains ne sont pas assez espacés
-                        if heures_passage[ind_train][1] - heures_passage[Occupation[0]][1] < 2 or heures_passage[ind_train][0] - heures_passage[Occupation[0]][0] < 2:
+                        if heures_passage[ind_train][1] - heures_passage[Occupation[-1][0]][1] < 2 or heures_passage[ind_train][0] - heures_passage[Occupation[-1][0]][0] < 2:
                             return False
                         else :
                             Occupation.append([ind_train, heures_passage[ind_train][2]])
@@ -109,24 +109,32 @@ def verif_troncon_2voies(plan, troncon_verif, h_max):
                 if heures_passage[ind_train][2] :
                     if len(Occupation1) == 0:
                         Occupation1.append(ind_train)
-                    elif heures_passage[ind_train][1] - heures_passage[Occupation1[0]][1] < 2 or heures_passage[ind_train][0] - heures_passage[Occupation1[0]][0] < 2:
+                    # si les trains sont assez espacés à l'entrée et à la sortie
+                    elif heures_passage[ind_train][1] - heures_passage[Occupation1[-1]][1] < 2 or heures_passage[ind_train][0] - heures_passage[Occupation1[-1]][0] < 2:
                         return False
                     else :
-                        Occupation1.append([ind_train])
+                        Occupation1.append(ind_train)
                 else :
                     if len(Occupation2) == 0:
                         Occupation2.append(ind_train)
-                    elif heures_passage[ind_train][1] - heures_passage[Occupation2[0]][1] < 2 or heures_passage[ind_train][0] - heures_passage[Occupation2[0]][0] < 2:
+                    elif heures_passage[ind_train][1] - heures_passage[Occupation2[-1]][1] < 2 or heures_passage[ind_train][0] - heures_passage[Occupation2[-1]][0] < 2:
                         return False
                     else :
-                        Occupation2.append([ind_train])
+                        Occupation2.append(ind_train)
             elif heures_passage[ind_train][1] == t: # un train sort à la minute t
                 if ind_train in Occupation1:
                     if Occupation1[0] != ind_train:
-
+                        return False
+                    else :
+                        del Occupation1[0]
+                else :
+                    if Occupation2[0] != ind_train:
+                        return False
+                    else :
+                        del Occupation2[0]
     return True
 
-def verif_plan_1h(plan, troncons_verif):
+def verif_plan_1h(plan):
     """
     """
     h_arrivee = [heures[-1] for heures in plan[2] if heures != -1]
