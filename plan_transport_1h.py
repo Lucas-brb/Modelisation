@@ -91,6 +91,41 @@ def verif_troncon_1voie(plan, troncon_verif, h_max):
                     del Occupation[0] # le train est sorti du tronçon
     return True
 
+def verif_troncon_2voies(plan, troncon_verif, h_max):
+    """
+    """
+    Occupation1 = []
+    Occupation2 = []
+    heures_passage = []
+    for ligne in range(len(plan[0])):
+        if troncon_verif in troncons_lignes[plan[0][ligne]][0]: # on prend la liste des trançons qui se situe dans le dico troncons_lignes
+            ind_t = troncons_lignes[plan[0][ligne]][0] # on recherche l'indice du tronçon dans la ligne
+            heures_passage.append(entree_sortie_troncon(plan[1][ligne], plan[2][ligne], troncons_lignes[plan[0][ligne]][0])[1][ind_t] + [troncons_lignes[plan[0][ligne]][1]])
+            heures_passage = np.array(heures_passage)
+            heures_passage[heures_passage[:,0].argsort()] # on trie le tableau par heure d'entrée croissante
+    for t in range(h_max+1):
+        for ind_train in range(len(heures_passage[:,0])):
+            if heures_passage[ind_train][0] == t:
+                if heures_passage[ind_train][2] :
+                    if len(Occupation1) == 0:
+                        Occupation1.append(ind_train)
+                    elif heures_passage[ind_train][1] - heures_passage[Occupation1[0]][1] < 2 or heures_passage[ind_train][0] - heures_passage[Occupation1[0]][0] < 2:
+                        return False
+                    else :
+                        Occupation1.append([ind_train])
+                else :
+                    if len(Occupation2) == 0:
+                        Occupation2.append(ind_train)
+                    elif heures_passage[ind_train][1] - heures_passage[Occupation2[0]][1] < 2 or heures_passage[ind_train][0] - heures_passage[Occupation2[0]][0] < 2:
+                        return False
+                    else :
+                        Occupation2.append([ind_train])
+            elif heures_passage[ind_train][1] == t: # un train sort à la minute t
+                if ind_train in Occupation1:
+                    if Occupation1[0] != ind_train:
+
+    return True
+
 def verif_plan_1h(plan, troncons_verif):
     """
     """
