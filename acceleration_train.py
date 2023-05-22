@@ -11,6 +11,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
+from donnees_lignes import *
 
 """Le code suivant va permettre de calculer l'accélération d'un train en fonction de sa vitesse actuelle.
 Pour ce faire nous allons renseigner les données contenues dans Excel et les implémenter dans python.
@@ -219,12 +220,11 @@ def entree_sortie_troncon(heures, distances, ligne):
     Sorties :
     '''
     horaires =[]
-    for k in range(1,len(distances)) :
-        if distances[k] != distances[k-1]:
-            horaires[k-1]=[heures[k-1], heures[k]]
+    for k in range(0,len(distances)-1) :
+        if distances[k] != distances[k+1]:
+            horaires.append([heures[k], heures[k+1]])
         else :
-            horaires[k-1]=[heures[k], heures[k+1]]
-            k+=1
+            pass
     L=[ligne,horaires]
     return L
 
@@ -234,4 +234,4 @@ heures=[0,5,10,30,32,30,32,20,22,25]
 distances=[0,2.5, 5.5,16,16,16,16,10,10,12]
 Ligne_Lyon_SaintEtienne=[[l13,l14,l15,l16,l17,l18], [True, True, True, True, True, True], all([l13[4],l14[4],l15[4],l16[4],l17[4],l18[4]])]
 
-print(entree_sortie_troncon(heures,distances,Ligne_Lyon_SaintEtienne))
+print(entree_sortie_troncon(heures,distances,Ligne_Lyon_SaintEtienne[0]))
