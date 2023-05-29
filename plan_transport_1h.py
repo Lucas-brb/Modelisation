@@ -79,8 +79,10 @@ def verif_troncon_1voie(plan, troncon_verif, h_max):
                 h_entree.append(t_entree)
                 h_sortie.append(t_sortie)
                 heures_passage.append([t_entree, t_sortie, troncons_lignes[plan[0][ligne]][1][ind_t]])
-    h_min = min(h_entree)
-    h_max = max(h_sortie)
+    if h_entree == [] :
+        return True
+    h_min = int(min(h_entree))
+    h_max = int(max(h_sortie))
     #heures_passage = np.array(heures_passage)
     #heures_passage[heures_passage[:,0].argsort()] # on trie le tableau par heure d'entrée croissante
     for t in range(h_min, h_max+1):
@@ -120,8 +122,10 @@ def verif_troncon_2voies(plan, troncon_verif, h_max):
                 h_entree.append(t_entree)
                 h_sortie.append(t_sortie)
                 heures_passage.append([t_entree, t_sortie, troncons_lignes[plan[0][ligne]][1][ind_t]])
-    h_min = min(h_entree)
-    h_max = max(h_sortie)
+    if h_entree == [] :
+        return True
+    h_min = int(min(h_entree))
+    h_max = int(max(h_sortie))
     #heures_passage = np.array(heures_passage)
     #heures_passage[heures_passage[:,0].argsort()] # on trie le tableau par heure d'entrée croissante
     for t in range(h_min, h_max+1):
@@ -171,8 +175,10 @@ def verif_troncon_3voies(plan, troncon_verif, h_max):
                 h_entree.append(t_entree)
                 h_sortie.append(t_sortie)
                 heures_passage.append([t_entree, t_sortie, troncons_lignes[plan[0][ligne]][1][ind_t]])
-    h_min = min(h_entree)
-    h_max = max(h_sortie)
+    if h_entree == [] :
+        return True
+    h_min = int(min(h_entree))
+    h_max = int(max(h_sortie))
     #heures_passage = np.array(heures_passage)
     #heures_passage[heures_passage[:,0].argsort()] # on trie le tableau par heure d'entrée croissante
     for t in range(h_min, h_max+1):
@@ -242,8 +248,10 @@ def verif_troncon_4voies(plan, troncon_verif, h_max):
                 h_entree.append(t_entree)
                 h_sortie.append(t_sortie)
                 heures_passage.append([t_entree, t_sortie, troncons_lignes[plan[0][ligne]][1][ind_t]])
-    h_min = min(h_entree)
-    h_max = max(h_sortie)
+    if h_entree == [] :
+        return True
+    h_min = int(min(h_entree))
+    h_max = int(max(h_sortie))
     #heures_passage = np.array(heures_passage)
     #heures_passage[heures_passage[:,0].argsort()] # on trie le tableau par heure d'entrée croissante
     for t in range(h_min, h_max+1):
