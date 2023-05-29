@@ -13,7 +13,7 @@ from Carac_trains import *
 from donnees_lignes import *
 from acceleration_train import *
 
-plan = [list(troncons_lignes.keys())]
+plan = [list(troncons_lignes.keys())[0:10]]
 plan.append([0 for i in range(len(plan[0]))])
 plan.append([-1 for i in range(len(plan[0]))])
 plan.append([0 for i in range(len(plan[0]))])
@@ -40,15 +40,15 @@ def Ajout_train(plan, lignesOK):
             ind_ligne = rd.randint(0, len(lignesOK)-1)
         nom_ligne = plan[0][ind_ligne]
         ligne_etudiee = troncons_lignes[nom_ligne]
-        if troncons_lignes[ligne_etudiee][0] in [TGV_MâconLochéTGV_Lyon[0], TGV_MâconLochéTGV_Sud[0], TGV_Sud_Lyon[0]]:
+        if ligne_etudiee[0] in [TGV_MâconLochéTGV_Lyon[0], TGV_MâconLochéTGV_Sud[0], TGV_Sud_Lyon[0]]:
             train_utilise = tgv
         elif ligne_etudiee[2] == False :
             train_utilise = Ter_autorail
         else :
             train_utilise = rd.choice([Ter_2n, Ter_regiolis])
-        for _ in range(100):
+        for _ in range(30):
             h_depart = rd.randint(0,59)
-            heures, distances = temps_parcours_ligne(troncons_lignes[ligne_etudiee][0],train_utilise,h_depart,'gares desservies')
+            heures, distances = temps_parcours_ligne(ligne_etudiee[0],train_utilise,h_depart,'gares desservies')
             plan[1][ind_ligne] = distances
             plan[2][ind_ligne] = heures
             plan[3][ind_ligne] = "gares desservies"
@@ -307,6 +307,9 @@ def verif_troncon_4voies(plan, troncon_verif, h_max):
                     else :
                         del Occupation4[0]
     return True
+
+def verif_noeud(plan, noeud_verif, h_max):
+    Occupation = []
 
 def verif_plan_1h(plan):
     """
