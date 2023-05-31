@@ -1,3 +1,18 @@
+#-------------------------------------------------------------------------------
+# Name:        module1
+# Purpose:
+#
+# Author:      barbier lucas
+#
+# Created:     31/05/2023
+# Copyright:   (c) barbi 2023
+# Licence:     <your licence>
+#-------------------------------------------------------------------------------
+import matplotlib.pyplot as plt
+
+def get(ligne):
+
+
 axes = plt.axes()
 plt.plot(heures, distances)
 gares = ['Roanne', 'Feurs', 'Saint Just Saint Rambert', 'Saint Etienne']

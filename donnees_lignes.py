@@ -113,7 +113,6 @@ TGV_MâconLochéTGV_Lyon=[[l58,l61,l49,l9], [True, True, False, True], all([l58[
 TGV_MâconLochéTGV_Sud=[[l58,l59,l60], [True, True, True], all([l58[4],l59[4],l60[4]])]
 TGV_Sud_Lyon=[[l60,l28bis,l28,l27bis,l27], [False, False, False, False, False], all([l60[4],l28bis[4],l28[4],l27bis[4],l27[4]])]
 
-# peut-être pas utile
 troncons_lignes = {'Roanne-Lyon' : Ligne_Roanne_Lyon, 'Roanne-Saint-Etienne' : Ligne_Roanne_SaintEtienne, 'Lyon-Saint-Etienne' : Ligne_Lyon_SaintEtienne, 'Lyon-Macon' : Ligne_Lyon_Macon, 'Lyon-Valence' : Ligne_Lyon_Valence, 'Lyon-Grenoble' : Ligne_Lyon_Grenoble, 'Valence-Grenoble' : Ligne_Valence_Grenoble, 'Grenoble-Chambery' : Ligne_Grenoble_Chambery, 'Chambery-Annecy' : Ligne_Chambery_Annecy, 'Lyon-Bourg-en-Bresse' : Ligne_Lyon_BourgEnBresse, 'Bourg-en-Bresse-Macon' : Ligne_BourgEnBresse_Macon, 'Lyon-Chambery' : Ligne_Lyon_Chambery, 'TGV Macon-Loché-Lyon' : TGV_MâconLochéTGV_Lyon, 'TGV Mâcon-Loché-Sud' : TGV_MâconLochéTGV_Sud, 'TGV Sud-Lyon' : TGV_Sud_Lyon,
 'Lyon-Roanne' : [list(reversed(Ligne_Roanne_Lyon[0])), [not(_) for _ in Ligne_Roanne_Lyon[1]], Ligne_Roanne_Lyon[2]], 'StE-Roanne' : [list(reversed(Ligne_Roanne_SaintEtienne[0])), [not(_) for _ in Ligne_Roanne_SaintEtienne[1]], Ligne_Roanne_SaintEtienne[2]], 'StE-Lyon' : [list(reversed(Ligne_Lyon_SaintEtienne[0])), [not(_) for _ in Ligne_Lyon_SaintEtienne[1]], Ligne_Lyon_SaintEtienne[2]], 'Macon_Lyon' : [list(reversed(Ligne_Lyon_Macon[0])) , [not(_) for _ in Ligne_Lyon_Macon[1]], Ligne_Lyon_Macon[2]]} # a suivre
 
