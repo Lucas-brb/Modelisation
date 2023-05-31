@@ -11,7 +11,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-from donnees_lignes import *
+
+path = "C:/Users/jujud/OneDrive/Documents/GitHub/Modelisation/"
+
+exec(open(path + "donnees_lignes.py", encoding="utf-8").read())
 
 """Le code suivant va permettre de calculer l'accélération d'un train en fonction de sa vitesse actuelle.
 Pour ce faire nous allons renseigner les données contenues dans Excel et les implémenter dans python.
@@ -166,6 +169,9 @@ def transition_troncon(v_actuelle, v_troncon1, v_troncon2, l_troncon, train) :
             v_sortie = v_troncon1
     return temps, v_sortie
 
+def min_to_format(min):
+    return str(round(min//60,0)) + " h " + str(round(min%60,0))
+
 def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
     '''
     Calclue le temps de parcour d'une ligne pour un type de train.
@@ -184,31 +190,58 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
     heures = [temps_parcours]
     d_cumulee = 0
     distances = [d_cumulee]
-    for i in range(len(ligne)):
-        ti = ligne[i]
-        if i != len(ligne)-1:
-            if ti[1] in gares_desservies:
-                temps, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
-                temps_parcours += temps
-                heures.append(temps_parcours/60)
+    for i in range(len(ligne)): # Pour chaque tronçon de la ligne
+        ti = ligne[i] # Tronçon i
+        if i != len(ligne)-1: # Si ce n'est pas le dernier tronçon
+            if ti[1] in gares_desservies: # Si une gare est desservie
+
+                # Passage du tronçon
+                temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
                 d_cumulee += ti[3]
+                temps_parcours += temps_s/60
+
+                # Maj des données
+                heures.append(temps_parcours)
                 distances.append(d_cumulee)
-                temps_parcours += 2
-                heures.append(temps_parcours/60)
+
+                # Arrêt en gare
+                temps_parcours += 2 #min
+
+                # Maj des données
+                heures.append(temps_parcours)
                 distances.append(d_cumulee)
-            else:
+
+            else: # Si aucune gare n'est desservie
+
                 ti1 = ligne[i+1] # on va avoir besoin de la vitesse limite suivante
-                temps, v_sortie = transition_troncon(v_sortie, ti[2], ti1[2], ti[3], train)
-                temps_parcours += temps
-                heures.append(temps_parcours/60)
+
+                # Passage du tronçon
+                temps_s, v_sortie = transition_troncon(v_sortie, ti[2], ti1[2], ti[3], train)
+                temps_parcours += temps_s/60
                 d_cumulee += ti[3]
+
+                # Maj des données
+                heures.append(temps_parcours)
                 distances.append(d_cumulee)
-        else :
-            temps_parcours += transition_troncon(v_sortie, ti[2], 0, ti[3], train)[0]
-            heures.append(temps_parcours/60)
+
+        else : # Pour le dernier tronçon
+
+            # Passage du dernier tronçon
+            temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
+            temps_parcours += temps_s/60
             d_cumulee += ti[3]
+
+            # Maj des données
+            heures.append(temps_parcours)
             distances.append(d_cumulee)
-    return heures, distances
+
+    return list(map(min_to_format, heures)), distances
+
+def min_format(min):
+    """
+     X min => X//60 h X%60
+    """
+    return str(int(min//60)) + " h " + str(int(min%60))
 
 def entree_sortie_troncon(heures, distances, ligne):
     '''Connaitre les heures d'entrée et de sortie de chaque tronçon pour une ligne donnée
