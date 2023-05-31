@@ -183,7 +183,12 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
     Remarque : si on a un arrêt en gare, on duplique le noeud et on rajoute 2mn
     '''
     temps_parcours = min_depart
-    v_sortie = 0
+    if ligne[0] == l49 :
+        v_sortie = 140
+    elif ligne[0] == l28bis:
+        v_sortie = 160
+    else :
+        v_sortie = 0
     heures = [temps_parcours]
     d_cumulee = 0
     distances = [d_cumulee]
@@ -223,8 +228,16 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
 
         else : # Pour le dernier tronçon
 
+            if ligne[i] == l49 : # si on sort des lignes ter ver les lgv par le nord
+                    temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 200, ti[3], train)
+
+            elif ligne[0] == l28bis: # si on sort des lignes ter ver les lgv par le sud
+                temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 200, ti[3], train)
+
+            else : # si ce n'est pas une desserte tgv dans le sens de la ligne tgv
+                temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
+
             # Passage du dernier tronçon
-            temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
             temps_parcours += temps_s/60
             d_cumulee += ti[3]
 
@@ -258,11 +271,3 @@ def entree_sortie_troncon(heures, distances, ligne):
             k+=1
     L=[ligne,horaires]
     return L
-
-
-#test
-heures=[0,5,10,30,32,30,32,20,22,25]
-distances=[0,2.5, 5.5,16,16,16,16,10,10,12]
-Ligne_Lyon_SaintEtienne=[[l13,l14,l15,l16,l17,l18], [True, True, True, True, True, True], all([l13[4],l14[4],l15[4],l16[4],l17[4],l18[4]])]
-
-print(entree_sortie_troncon(heures,distances,Ligne_Lyon_SaintEtienne))

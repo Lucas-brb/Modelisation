@@ -9,10 +9,30 @@
 # Licence:     <your licence>
 #-------------------------------------------------------------------------------
 import matplotlib.pyplot as plt
+from donnees_lignes import *
+from plan_transport_1h import *
 
-def get(ligne):
+Ajout_train(plan,lignesOK)
 
+def g_e_t(ligne, plan):
+    plt.close()
+    troncons  = troncons_lignes[ligne]
+    aff = []
+    for ind_ligne in range(len(plan[0])) :
+        if plan[0][ind_ligne] == ligne :
+            aff.append([plan[2][ind_ligne], plan[1][ind_ligne]])
+        elif troncons_lignes[plan[0][ind_ligne]][0] == list(reversed(troncons[0])) :
+            dist_tot = plan[1][ind_ligne][-1]
+            km_parcourus = []
+            for dist in plan[1][ind_ligne] :
+                km_parcourus.append(dist_tot - dist)
+            aff.append([plan[2][ind_ligne], km_parcourus])
+    for t in aff :
+        plt.plot(t[0], t[1])
+    plt.show()
 
+g_e_t(plan[0][0],plan)
+"""
 axes = plt.axes()
 plt.plot(heures, distances)
 gares = ['Roanne', 'Feurs', 'Saint Just Saint Rambert', 'Saint Etienne']
@@ -26,3 +46,5 @@ plt.xticks(rotation = 90)
 plt.show()
 time.sleep(1)
 plt.close()
+g_e_t(plan[0][0],plan)
+"""
