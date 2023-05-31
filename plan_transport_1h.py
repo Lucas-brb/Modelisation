@@ -40,7 +40,7 @@ def Ajout_train(plan, lignesOK):
             ind_ligne = rd.randint(0, len(lignesOK)-1)
         nom_ligne = plan[0][ind_ligne]
         ligne_etudiee = troncons_lignes[nom_ligne]
-        if ligne_etudiee[0] in [TGV_MâconLochéTGV_Lyon[0], TGV_MâconLochéTGV_Sud[0], TGV_Sud_Lyon[0]]:
+        if ligne_etudiee[0] in [TGV_Creusot_Lyon[0], TGV_Lyon_Marseille[0], TGV_Lyon_Montpellier[0], TGV_Lille_Grenoble[0]]:
             train_utilise = tgv
         elif ligne_etudiee[2] == False :
             train_utilise = Ter_autorail

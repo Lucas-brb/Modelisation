@@ -17,6 +17,11 @@ Ajout_train(plan,lignesOK)
 def g_e_t(ligne, plan):
     plt.close()
     troncons  = troncons_lignes[ligne]
+    km = 0
+    dist_cor_troncons = []
+    for t in troncons[0]:
+        dist_cor_troncons.append([km, km + t[3]])
+        km += t[3]
     aff = []
     for ind_ligne in range(len(plan[0])) :
         if plan[0][ind_ligne] == ligne :
@@ -27,6 +32,9 @@ def g_e_t(ligne, plan):
             for dist in plan[1][ind_ligne] :
                 km_parcourus.append(dist_tot - dist)
             aff.append([plan[2][ind_ligne], km_parcourus])
+        else :
+            troncons_communs = [commun for commun in troncons[0] if commun in troncons_lignes[plan[0][ind_ligne]][0]]
+            # a continuer
     for t in aff :
         plt.plot(t[0], t[1])
     plt.show()
