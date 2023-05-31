@@ -11,10 +11,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import time
-
-path = "C:/Users/jujud/OneDrive/Documents/GitHub/Modelisation/"
-
-exec(open(path + "donnees_lignes.py", encoding="utf-8").read())
+from donnees_lignes import *
 
 """Le code suivant va permettre de calculer l'accélération d'un train en fonction de sa vitesse actuelle.
 Pour ce faire nous allons renseigner les données contenues dans Excel et les implémenter dans python.
@@ -235,7 +232,7 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
             heures.append(temps_parcours)
             distances.append(d_cumulee)
 
-    return list(map(min_to_format, heures)), distances
+    return heures, distances
 
 def min_format(min):
     """
