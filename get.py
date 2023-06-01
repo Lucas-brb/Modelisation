@@ -22,7 +22,7 @@ def g_e_t(ligne, plan):
     for t in troncons[0]:
         dist_cor_troncons.append([km, km + t[3]])
         km += t[3]
-    aff = []
+    aff = [] # on crée la liste de tous les trajets à afficher sur le get
     for ind_ligne in range(len(plan[0])) :
         if plan[0][ind_ligne] == ligne :
             aff.append([plan[2][ind_ligne], plan[1][ind_ligne]])

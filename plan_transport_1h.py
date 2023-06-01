@@ -13,7 +13,7 @@ from Carac_trains import *
 from donnees_lignes import *
 from acceleration_train import *
 
-plan = [list(troncons_lignes.keys())[0:10]]
+plan = [list(troncons_lignes.keys())]
 plan.append([0 for i in range(len(plan[0]))])
 plan.append([-1 for i in range(len(plan[0]))])
 plan.append([0 for i in range(len(plan[0]))])
