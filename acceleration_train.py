@@ -93,6 +93,8 @@ def d_min(v_actuelle, v_lim1, v_lim2, train):
         d_min = la distance minimale pour passer par v1 avant de passer à v2 (km)
     Remarque : on considère que v_actuelle <= v_lim1 car on respecte les limitaions de vitesse
     '''
+    v_lim1 = min(v_lim1, train[4])
+    v_lim2 = min(v_lim2, train[4])
     v_actuelle_m = v_actuelle/3.6
     v_lim1_m = v_lim1/3.6
     v_lim2_m = v_lim2/3.6
@@ -119,6 +121,8 @@ def transition_troncon(v_actuelle, v_troncon1, v_troncon2, l_troncon, train) :
         v_sortie = la vitesse de sortie du troncon 1
     Remarque : la question de "l'éco-conduite" n'est pas prise en compte ici, on essaie d'aller le plus vite possible
     '''
+    v_troncon1 = min(v_troncon1, train[4])
+    v_troncon2 = min(v_troncon2, train[4])
     v_actuelle_m = v_actuelle/3.6
     v_troncon1_m = v_troncon1/3.6
     v_troncon2_m = v_troncon2/3.6
@@ -137,7 +141,7 @@ def transition_troncon(v_actuelle, v_troncon1, v_troncon2, l_troncon, train) :
             t_acc, d_acc = temps_distance_acc(v_actuelle, v_max_atteinte, train)
             d_parcourue = partie_positive((v_max_atteinte**2 - v_troncon2_m**2)/2*f) + d_acc*1000
             # distance d'accélération de v_actuelle à v_max_atteinte puis freinage de v_max_atteinte à v_troncon2 (si c'est positif donc si v_max_atteinte > v_troncon2)
-            while d_parcourue < l_troncon*1000 :
+            while d_parcourue < l_troncon*1000 and v_max_atteinte <= train[4]-1:
                 # itérations pour ttrouver la vitesse maximale atteinte
                 v_max_atteinte += 1
                 t_acc, d_acc = temps_distance_acc(v_actuelle, v_max_atteinte, train)
@@ -169,7 +173,7 @@ def transition_troncon(v_actuelle, v_troncon1, v_troncon2, l_troncon, train) :
 def min_to_format(min):
     return str(round(min//60,0)) + " h " + str(round(min%60,0))
 
-def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
+def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_troncons):
     '''
     Calclue le temps de parcour d'une ligne pour un type de train.
     Entrées :
@@ -195,7 +199,7 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
     for i in range(len(ligne)): # Pour chaque tronçon de la ligne
         ti = ligne[i] # Tronçon i
         if i != len(ligne)-1: # Si ce n'est pas le dernier tronçon
-            if ti[1] in gares_desservies: # Si une gare est desservie
+            if (sens_troncons[i] and ti[1] in gares_desservies) or (not(sens_troncons[i]) and ti[0] in gares_desservies): # Si une gare est desservie
 
                 # Passage du tronçon
                 temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
@@ -207,7 +211,10 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies):
                 distances.append(d_cumulee)
 
                 # Arrêt en gare
-                temps_parcours += 2 #min
+                if (sens_troncons[i] and ti[1] == 'Lyon') or (not(sens_troncons[i]) and ti[0] == 'Lyon'):
+                    temps_parcours += 6 # min
+                else :
+                    temps_parcours += 2 # min
 
                 # Maj des données
                 heures.append(temps_parcours)
@@ -253,7 +260,7 @@ def min_format(min):
     """
     return str(int(min//60)) + " h " + str(int(min%60))
 
-def entree_sortie_troncon(heures, distances, ligne):
+def entree_sortie_troncon(heures, l_distances, ligne):
     '''Connaitre les heures d'entrée et de sortie de chaque tronçon pour une ligne donnée
     Entrées:
     ligne = [troncon 1, troncon 2,..., troncon n]
@@ -262,9 +269,9 @@ def entree_sortie_troncon(heures, distances, ligne):
 
     Sorties :
     '''
-    horaires =[0]*len(distances)
-    for k in range(0,len(distances)-1) :
-        if distances[k] != distances[k+1]:
-            horaires[k]=[heures[k], heures[k+1]]
+    horaires =[]
+    for k in range(0,len(l_distances)-1) :
+        if l_distances[k] != l_distances[k+1]:
+            horaires.append([heures[k], heures[k+1]])
     L=[ligne,horaires]
     return L
