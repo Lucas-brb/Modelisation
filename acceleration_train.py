@@ -187,15 +187,19 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
     Remarque : si on a un arrêt en gare, on duplique le noeud et on rajoute 2mn
     '''
     temps_parcours = min_depart
+    d_cumulee = 0
     if ligne[0] == l49 :
         v_sortie = 140
+        heures = [temps_parcours]
+        distances = [d_cumulee]
     elif ligne[0] == l28bis:
         v_sortie = 160
+        heures = [temps_parcours]
+        distances = [d_cumulee]
     else :
         v_sortie = 0
-    heures = [temps_parcours]
-    d_cumulee = 0
-    distances = [d_cumulee]
+        heures = [temps_parcours - 10, temps_parcours]
+        distances = [d_cumulee]*2
     for i in range(len(ligne)): # Pour chaque tronçon de la ligne
         ti = ligne[i] # Tronçon i
         if i != len(ligne)-1: # Si ce n'est pas le dernier tronçon

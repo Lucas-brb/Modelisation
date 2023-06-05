@@ -393,6 +393,25 @@ def verif_troncon_4voies(plan, troncon_verif):
                         del Occupation4[0]
     return True
 
+def dist_gares_ligne(troncons_l, sens_parcours):
+    kmt = 0
+    if sens_parcours[0] :
+        gares_l = [troncons_l[0][0]]
+    else :
+        gares_l = [troncons_l[0][1]]
+    dist_gares_ligne = [0]
+    for i in range(len(troncons_l)):
+        kmt += troncons_l[i][3]
+        if sens_parcours[i] :
+            #if troncons_l[i][1] in gares :
+            dist_gares_ligne.append(kmt)
+            gares_l.append(troncons_l[i][1])
+        else :
+            #if troncons_l[i][0] in gares :
+            dist_gares_ligne.append(kmt)
+            gares_l.append(troncons_l[i][0])
+    return dist_gares_ligne, gares_l
+
 def verif_noeud(plan, noeud_verif, h_max):
     Occupation = []
 
