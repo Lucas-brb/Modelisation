@@ -393,27 +393,41 @@ def verif_troncon_4voies(plan, troncon_verif):
                         del Occupation4[0]
     return True
 
-def dist_gares_ligne(troncons_l, sens_parcours):
+def dist_noeuds_ligne(troncons_l, sens_parcours):
     kmt = 0
     if sens_parcours[0] :
-        gares_l = [troncons_l[0][0]]
+        noeuds_l = [troncons_l[0][0]]
     else :
-        gares_l = [troncons_l[0][1]]
+        noeuds_l = [troncons_l[0][1]]
     dist_gares_ligne = [0]
     for i in range(len(troncons_l)):
         kmt += troncons_l[i][3]
         if sens_parcours[i] :
-            #if troncons_l[i][1] in gares :
             dist_gares_ligne.append(kmt)
-            gares_l.append(troncons_l[i][1])
+            noeuds_l.append(troncons_l[i][1])
         else :
-            #if troncons_l[i][0] in gares :
             dist_gares_ligne.append(kmt)
-            gares_l.append(troncons_l[i][0])
-    return dist_gares_ligne, gares_l
+            noeuds_l.append(troncons_l[i][0])
+    return dist_gares_ligne, noeuds_l
 
 def verif_noeud(plan, noeud_verif, h_max):
     Occupation = []
+    heures_passage = []
+    h_entree, h_sortie = [], []
+    for i_ligne in range(len(plan[0])):
+        if plan[2][i_ligne] != -1:
+            troncons, sens_troncons = troncons_lignes[plan[0][i_ligne]][0:2] # A FINIR
+            if noeud_verif in dist_noeuds_ligne()
+            if troncon_verif in troncons_lignes[plan[0][i_ligne]][0]: # on prend la liste des trançons qui se situe dans le dico troncons_lignes
+                ind_t = troncons_lignes[plan[0][i_ligne]][0].index(troncon_verif) # on recherche l'indice du tronçon dans la ligne
+                t_entree, t_sortie = entree_sortie_troncon(plan[2][i_ligne], plan[1][i_ligne], troncons_lignes[plan[0][i_ligne]][0])[1][ind_t]
+                h_entree.append(t_entree)
+                h_sortie.append(t_sortie)
+                heures_passage.append([t_entree, t_sortie, troncons_lignes[plan[0][i_ligne]][1][ind_t]])
+    if h_entree == [] :
+        return True
+    h_min = int(min(h_entree))
+    h_max = int(max(h_sortie))
 
 def verif_plan(plan):
     """

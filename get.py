@@ -88,7 +88,7 @@ def g_e_t(ligne, plan):
     plt.axhline(y = 0 , linestyle = '--', color = 'grey', linewidth = 0.5)
     for w in dist_cor_troncons:
         plt.axhline(y = w[1], linestyle = '--', color = 'grey', linewidth = 0.5)
-    distances, gares = dist_gares_ligne(troncons[0], troncons[1])
+    distances, gares = dist_noeuds_ligne(troncons[0], troncons[1])
     axes.set_yticks(distances)
     axes.set_yticklabels(gares)
     axes.set_xticks([k*60 for k in range(18)])
@@ -96,6 +96,7 @@ def g_e_t(ligne, plan):
     plt.xticks(rotation = 90)
     plt.legend()
     plt.show()
+    plt.close()
 
 g_e_t(plan[0][0],plan)
 """.0
