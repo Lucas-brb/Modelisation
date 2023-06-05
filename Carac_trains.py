@@ -72,4 +72,4 @@ M_v_e_auto = np.array([[0,51900],
 [140,10600]])
 Ter_autorail = [53.7 , 13.2 , 0.086 , 0.0041 , 140 , M_v_e_auto , 61, False]
 
-_liste_trains = [tgv, Ter_2n, Ter_regiolis, Ter_autorail]
+noms_trains = {'TGV' : tgv, '2N' : Ter_2n, 'Regiolis' : Ter_regiolis, 'Autorail' : Ter_autorail}

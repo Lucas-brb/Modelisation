@@ -22,6 +22,7 @@ plan.append([0 for i in range(len(plan[0]))])
 plan.append([0 for i in range(len(plan[0]))])
 lignesOK = [False for i in range(len(plan[0]))]
 
+
 def plus_petite_longueur(l):
     """
     """
@@ -65,18 +66,19 @@ def Ajout_train(plan, lignesOK):
             nom_ligne = plan[0][ind_ligne_test]
             ligne_etudiee = troncons_lignes[nom_ligne]
             if ligne_etudiee[0] in [TGV_Creusot_Lyon[0], TGV_Lyon_Marseille[0], TGV_Lyon_Montpellier[0], TGV_Lille_Grenoble[0]]:
-                train_utilise = tgv
+                nom_train_utilise = 'TGV'
             elif ligne_etudiee[2] == False :
-                train_utilise = Ter_autorail
+                nom_train_utilise = 'Autorail'
             else :
-                train_utilise = rd.choice([Ter_2n, Ter_regiolis])
+                nom_train_utilise = rd.choice(['2N', 'Regiolis'])
+            train_utilise = noms_trains[nom_train_utilise]
             heures, distances = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
             for h_depart in range(60):
                 heures_n = [h + h_depart for h in heures]
                 plan_copie[1][ind_ligne_test] = distances
                 plan_copie[2][ind_ligne_test] = heures_n
                 plan_copie[3][ind_ligne_test] = '' # gares_desservables[nom_ligne]
-                plan_copie[4][ind_ligne_test] = train_utilise
+                plan_copie[4][ind_ligne_test] = nom_train_utilise
                 if verif_plan(plan_copie): # si on peut faire partir le train sur la ligne considérée à l'heure voulue
                     heures_possibles[ind_ligne].append(h_depart)
             trains.append(train_utilise)
@@ -88,7 +90,7 @@ def Ajout_train(plan, lignesOK):
                 plan[1][ind_ligne] = -1
                 plan[2][ind_ligne] = -1
                 plan[3][ind_ligne] = ""
-                plan[4][ind_ligne] = 0
+                plan[4][ind_ligne] = ""
                 lignesOK[ind_ligne] = False
         else :
             index = plus_petite_longueur(heures_possibles)
@@ -102,7 +104,7 @@ def Ajout_train(plan, lignesOK):
             plan[1][ind_ligne] = distances
             plan[2][ind_ligne] = heures
             plan[3][ind_ligne] = '' # gares_desservables[nom_ligne]
-            plan[4][ind_ligne] = train_utilise
+            plan[4][ind_ligne] = nom_train_utilise
             lignesOK[ind_ligne] = True
         return Ajout_train(plan, lignesOK)
         '''
