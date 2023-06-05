@@ -93,8 +93,7 @@ _troncons_verif = [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, 
 
 #Récapitulatif des lignes et de leurs tronçons
 #utilisation de la fonction python 'all' pour vérifier si tous les tronçons sont électrifiés, i.e si la ligne est electrifiée
-# j'aurais besoin que vous me mettiez l'orientation des tronçons sur les lignes genre
-# si la ligne est ligne_ville1_ville2 = [l1,l2,l3] il faudrait me mettre
+# si la ligne est ligne_ville1_ville2 = [l1,l2,l3], on met
 # ligne_ville1_ville2 = [[l1,l2,l3], [True, True, False]] si l1 et l2 sont parcourus dans le sens direct, et l3 dans le sens indirect
 Ligne_Roanne_Lyon = [[l1,l2,l3,l4,l5,l6,l7,l8,l9], [True, True, True, True, True, True, True, True, True], [all([l1[4],l2[4],l3[4],l4[4],l5[4],l6[4],l7[4],l8[4],l9[4]])]]
 
