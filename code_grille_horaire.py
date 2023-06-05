@@ -1,16 +1,9 @@
 import matplotlib.pyplot as plt
 
 # Données du tableau
-def Grille_horaire(ligne, train, min_depart, gares_desservies):
-    desserte = ligne[0]
-    Gares=[]
-    HeureDépart = []
-    for i in range (0, len(desserte)):
-        if desserte[i][0] in gares:
-            Gares.append(desserte[i][0])
-            HeureDépart.append(temps_parcours_ligne(desserte, train, min_depart, gares_desservies)[0][i])
-    HeureDépart.append(temps_parcours_ligne(desserte, train, min_depart, gares_desservies)[0][len(desserte)])
-    Gares.append(desserte[len(desserte)-1][1])
+def Grille_horaire(ligne):
+    Gares = Liste_Gares_Heures(ligne)[0]
+    HeureDépart = Liste_Gares_Heures(ligne)[1]
 # Transposer les données
     table_data = [Gares, HeureDépart]
     table_data_transposed = list(map(list, zip(*table_data)))
@@ -19,7 +12,7 @@ def Grille_horaire(ligne, train, min_depart, gares_desservies):
     fig, ax = plt.subplots()
 
 # Création du tableau
-    table = ax.table(cellText=table_data_transposed, colLabels=['Gares', 'Heure de départ'], loc='center')
+    table = ax.table(cellText=table_data_transposed, colLabels=['Gares', 'Heure de passage'], loc='center')
 
 # Style du tableau
     table.auto_set_font_size(False)
