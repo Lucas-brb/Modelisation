@@ -45,6 +45,7 @@ def Liste_Gares_Heures(ligne): #ligne sous la forme 'Roanne-Lyon'
     #on retire les heures correspond aux points qui ne sont pas des gares desservies
     Heures = [Heures[i] for i in range(len(Heures)) if not(i in indices)]
 
+    #on met les heures sous le format '9h05'
     for k in range (0, len(Heures)) :
         Heures[k]=min_to_format(Heures[k])
 

@@ -1,5 +1,7 @@
 import matplotlib.pyplot as plt
 
+#dans la grille horaire, pour les gares desservies hors départ de terminus, on retrouve deux fois le nom de la gare avec deux heures correspondantes : la première quand le train arrive dans cette gare, la deuxième quand le train part de cette gare, soit 2 min après être arrivé
+
 # Données du tableau
 def Grille_horaire(ligne):
     Gares = Liste_Gares_Heures(ligne)[0]
