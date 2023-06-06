@@ -28,6 +28,6 @@ def Grille_horaire(ligne):
     plt.show()
 
 
-Liste_lignes=[Ligne_BourgEnBresse_Macon, Ligne_Chambery_Annecy, Ligne_Grenoble_Chambery, Ligne_Lyon_BourgEnBresse, Ligne_Lyon_Chambery, Ligne_Lyon_Grenoble, Ligne_Lyon_Macon, Ligne_Lyon_SaintEtienne, Ligne_Lyon_Valence, Ligne_Roanne_Lyon, Ligne_Roanne_SaintEtienne, Ligne_Valence_Grenoble]
+Liste_lignes=[Ligne_BourgEnBresse_Macon, Ligne_Chambery_Annecy, Ligne_Grenoble_Chambery, Ligne_Lyon_BourgEnBresse, Ligne_Lyon_Chambery, Ligne_Lyon_Grenoble, Ligne_Lyon_Macon, Ligne_Lyon_SaintEtienne, Ligne_Lyon_Valence, Ligne_Roanne_Lyon, Ligne_Roanne_SaintEtienne, Ligne_Valence_Grenoble,Ligne_Lyon_Annecy]
 
 
