@@ -186,6 +186,7 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
         distances : la distance totale parcourue entre les noeuds (en km)
     Remarque : si on a un arrêt en gare, on duplique le noeud et on rajoute 2mn
     '''
+    noeuds = []
     temps_parcours = min_depart
     d_cumulee = 0
     if ligne[0] == l49 :
@@ -200,6 +201,15 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
         v_sortie = 0
         heures = [temps_parcours - 10, temps_parcours]
         distances = [d_cumulee]*2
+        if sens_troncons[0]:
+            noeuds.append(ligne[0][0])
+        else :
+            noeuds.append(ligne[0][1])
+
+    if sens_troncons[0]:
+        noeuds.append(ligne[0][0])
+    else :
+        noeuds.append(ligne[0][1])
     for i in range(len(ligne)): # Pour chaque tronçon de la ligne
         ti = ligne[i] # Tronçon i
         if i != len(ligne)-1: # Si ce n'est pas le dernier tronçon
@@ -224,6 +234,13 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
                 heures.append(temps_parcours)
                 distances.append(d_cumulee)
 
+                if sens_troncons[i]:
+                    noeuds.append(ti[1])
+                    noeuds.append(ti[1])
+                else :
+                    noeuds.append(ti[0])
+                    noeuds.append(ti[0])
+
             else: # Si aucune gare n'est desservie
 
                 ti1 = ligne[i+1] # on va avoir besoin de la vitesse limite suivante
@@ -237,26 +254,54 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
                 heures.append(temps_parcours)
                 distances.append(d_cumulee)
 
+                if sens_troncons[i]:
+                    noeuds.append(ti[1])
+                else :
+                    noeuds.append(ti[0])
+
         else : # Pour le dernier tronçon
 
-            if ligne[i] == l49 : # si on sort des lignes ter ver les lgv par le nord
-                    temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 200, ti[3], train)
-
-            elif ligne[0] == l28bis: # si on sort des lignes ter ver les lgv par le sud
+            if ligne[i] == l49 or ligne[0] == l28bis : # si on sort des lignes ter vers les lgv par le nord ou le sud
                 temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 200, ti[3], train)
+
+                if sens_troncons[i]:
+                    noeuds.append(ti[1])
+                else :
+                    noeuds.append(ti[0])
+
+                # Passage du dernier tronçon
+                temps_parcours += temps_s/60
+                d_cumulee += ti[3]
+
+                # Maj des données
+                heures.append(temps_parcours)
+                distances.append(d_cumulee)
 
             else : # si ce n'est pas une desserte tgv dans le sens de la ligne tgv
                 temps_s, v_sortie = transition_troncon(v_sortie, ti[2], 0, ti[3], train)
 
-            # Passage du dernier tronçon
-            temps_parcours += temps_s/60
-            d_cumulee += ti[3]
+                # Passage du dernier tronçon
+                temps_parcours += temps_s/60
+                d_cumulee += ti[3]
 
-            # Maj des données
-            heures.append(temps_parcours)
-            distances.append(d_cumulee)
+                # Maj des données
+                heures.append(temps_parcours)
+                distances.append(d_cumulee)
 
-    return heures, distances
+                temps_parcours += 10 # min
+
+                # Maj des données
+                heures.append(temps_parcours)
+                distances.append(d_cumulee)
+
+                if sens_troncons[i]:
+                    noeuds.append(ti[1])
+                    noeuds.append(ti[1])
+                else :
+                    noeuds.append(ti[0])
+                    noeuds.append(ti[0])
+
+    return heures, distances, noeuds
 
 def min_format(min):
     """
