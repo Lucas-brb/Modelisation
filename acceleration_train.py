@@ -318,6 +318,7 @@ def entree_sortie_troncon(heures, l_distances, ligne):
     heures = [0, heure 1, heure 2, heure 2 +2min, heure 3,..., heure n], lorsque le train passe par une gare il y a une pause de 2min
 
     Sorties :
+    la ligne et une liste de listes de éléments : [ligne,[heure_arrivée_gare1, heure_départ_gare1, heure_arrivée_gare2, heure_départ_gare2...]]
     '''
     horaires =[]
     for k in range(0,len(l_distances)-1) :
