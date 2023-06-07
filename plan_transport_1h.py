@@ -23,7 +23,7 @@ heures_pointe = [7, 8, 9, 12, 13, 14, 17, 18, 19]
 indices_heures = []
 indices_heures_initial = 0
 plan = []
-for _ in range(6, 7):
+for _ in range(6, 23):
     if _ % 2 == 0:
         if _ in heures_pointe:
             desserte_heure = lignes_ter1 + tgv_pointe
@@ -73,6 +73,14 @@ plan = [
 """
 def Ajout_train(plan, lignesOK):
     '''
+    Permet d'ajouter un train à un plan de transport.
+    Entrees :
+        plan = le plan de transport actuel
+        lignesOK = la liste des lignes qui sont déjà incluses dans le plan de transport
+        (les indices avec le plan correspondent)
+    Sortie :
+        plan = le plan de transport fini
+    Remarque : cette fonctnio est une fonction récursive.
     '''
     if all(lignesOK):
         return plan
@@ -88,17 +96,27 @@ def Ajout_train(plan, lignesOK):
 
         for ind_ligne in range(len(ind_lignes_nOK)) : # ind_ligne = indice dans ind_ligne_nOK
             plan_copie = copy.deepcopy(plan) # on n'interfère pas avec le vrai plan de transport
-            ind_ligne_test = ind_lignes_nOK[ind_ligne] # ind_ligne_test = indice de la ligne dans le vrai plan de transport
-            nom_ligne = plan[0][ind_ligne_test]
-            ligne_etudiee = troncons_lignes[nom_ligne]
+            ind_ligne_test = ind_lignes_nOK[ind_ligne] # ind_ligne_test = indice de la ligne dans le plan de transport en entrée
+            nom_ligne = plan[0][ind_ligne_test] # str
+            ligne_etudiee = troncons_lignes[nom_ligne] # on prend la liste et l'orientation des tronçons qui constituent la ligne considérée.
+
+            # si c'est un desserte TGV
             if nom_ligne in ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']:
                 nom_train_utilise = 'TGV'
+
+            # si la ligne n'est pas électrifiée
             elif ligne_etudiee[2] == False :
                 nom_train_utilise = 'Autorail'
-            else :
+            else : # sinon, on prend au hasard entre les deux autres types de matériel
                 nom_train_utilise = rd.choice(['2N', 'Regiolis'])
+
+            # recuperation des caractéristiques techniques du train
             train_utilise = noms_trains[nom_train_utilise]
+
+            # on calcule le temps mis par le train pour parcourir sa ligne
             heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
+
+            # on va tester sur toutes les minutes de la journée s'il est possible de faire démarrer le train à cette heure
             for h_depart in range(6*60, 22*60):
                 heures_n = [h + h_depart for h in heures]
                 plan_copie[1][ind_ligne_test] = distances
@@ -109,8 +127,12 @@ def Ajout_train(plan, lignesOK):
                 if verif_plan(plan_copie): # si on peut faire partir le train sur la ligne considérée à l'heure voulue
                     heures_possibles[ind_ligne].append(h_depart)
             trains.append(nom_train_utilise)
-        if any(len(x) == 0 for x in heures_possibles) : # un des trains ne peut pas partir avec ce plan de transport, bloqué
+
+        # si un des trains ne peut pas partir avec ce plan de transport, on est bloqués
+        if any(len(x) == 0 for x in heures_possibles) :
             ind_ligne = rd.randint(0, len(lignesOK)-1)
+
+            # on retire un élément au hasard du plan
             if not(all(not(x) for x in lignesOK)):
                 while not(lignesOK[ind_ligne]) :
                     ind_ligne = rd.randint(0, len(lignesOK)-1)
@@ -120,8 +142,8 @@ def Ajout_train(plan, lignesOK):
                 plan[4][ind_ligne] = ""
                 plan[5][ind_ligne] = 0
                 lignesOK[ind_ligne] = False
-        else :
-            index = plus_petite_longueur(heures_possibles)
+        else : # si l'on n'est pas bloqués
+            index = plus_petite_longueur(heures_possibles) # on récupère le liste des indices des listes de plus petite longueur dans heures_possibles
             i = rd.choice(index)
             ind_ligne = ind_lignes_nOK[i]
             nom_ligne = plan[0][ind_ligne]
@@ -183,48 +205,73 @@ def Ajout_train(plan, lignesOK):
 
 def verif_troncon_1voie(plan, troncon_verif):
     """
+    Une fonction qui permet de vérifier si un tronçon à une voie n'est pas surchargé.
+    Entrees :
+        plan = le plan à vérifier
+        troncon_verif = le tronçon sur lequel notre étude va porter
+    Sorties :
+        un booléen, True si non surchargé et False sinon
     """
+
+    # initialisation
     Occupation = []
     heures_passage = []
     h_entree, h_sortie = [],[]
+
+    # on récupère les données des lignes qui contiennent ce tronçon
     for ligne in range(len(plan[0])):
-        if plan[2][ligne] != -1:
+        if plan[2][ligne] != -1: # si la ligne a été ajoutée dans le plan
             if troncon_verif in troncons_lignes[plan[0][ligne]][0]: # on prend la liste des trançons qui se situe dans le dico troncons_lignes
                 ind_t = troncons_lignes[plan[0][ligne]][0].index(troncon_verif) # on recherche l'indice du tronçon dans la ligne
+
+                # recuperation des dates d'entrée et de sortie du tronçon avec la fonction entree_sortie_troncon
                 t_entree, t_sortie = entree_sortie_troncon(plan[2][ligne], plan[1][ligne], troncons_lignes[plan[0][ligne]][0])[1][ind_t]
                 h_entree.append(t_entree)
                 h_sortie.append(t_sortie)
                 heures_passage.append([t_entree, t_sortie, troncons_lignes[plan[0][ligne]][1][ind_t]])
+
+    # si le tronçon n'est parcouru par aucune des lignes ajoutées dans plan
     if h_entree == [] :
         return True
     h_min = int(min(h_entree))
     h_max = int(max(h_sortie))
-    #heures_passage = np.array(heures_passage)
-    #heures_passage[heures_passage[:,0].argsort()] # on trie le tableau par heure d'entrée croissante
+
+    # on va regarder l'occupation du tronçon à tous les instants
     for t in range(h_min, h_max+1):
-        for ind_train in range(len(heures_passage)):
+        for ind_train in range(len(heures_passage)): # indice dans la liste heures_passage
             if heures_passage[ind_train][0] == t:
-                if len(Occupation) == 0:
+                if len(Occupation) == 0: # si aucun train n'est déjà présent sur le tronçon
                     Occupation.append([ind_train, heures_passage[ind_train][2]])
                 else :
-                    if Occupation[-1][1] == heures_passage[ind_train][2]: # les deux trains sur le tronçon vont bien dans le même sens
+                    if Occupation[-1][1] == heures_passage[ind_train][2]: # si les deux trains sur le tronçon vont bien dans le même sens
+
                         # si les trains ne sont pas assez espacés
+                        # Occupation[[-1][0]][1] = l'heure de sortie du tronçon du dernier train étant rentré sur le tronçon
+                        # Occupation[[-1][0]][0] = l'heure d'entrée dans le tronçon du dernier train étant rentré
                         if heures_passage[ind_train][1] - heures_passage[Occupation[-1][0]][1] < 4 or heures_passage[ind_train][0] - heures_passage[Occupation[-1][0]][0] < 4:
                             return False
                         else :
                             Occupation.append([ind_train, heures_passage[ind_train][2]])
                     else :
                         return False
-            elif heures_passage[ind_train][1] == t: # un train sort à la minute t
+            elif heures_passage[ind_train][1] == t: # si un train sort à la minute t
                 if len(Occupation) != 0:
-                    if ind_train != Occupation[0][0]: # ce n'est pas le premier train qui est rentré qui ressort : rattrapage
+
+                    # ce n'est pas le premier train qui est rentré qui ressort :  il y a rattrapage !
+                    if ind_train != Occupation[0][0]:
                         return False
                     else :
-                        del Occupation[0] # le train est sorti du tronçon
+                        del Occupation[0] # on supprime le train du tronçon
     return True
 
 def verif_troncon_2voies(plan, troncon_verif):
     """
+        Une fonction qui permet de vérifier si un tronçon à 2 voies n'est pas surchargé.
+    Entrees :
+        plan = le plan à vérifier
+        troncon_verif = le tronçon sur lequel notre étude va porter
+    Sorties :
+        un booléen, True si non surchargé et False sinon
     """
     Occupation1 = []
     Occupation2 = []
@@ -242,8 +289,6 @@ def verif_troncon_2voies(plan, troncon_verif):
         return True
     h_min = int(min(h_entree))
     h_max = int(max(h_sortie))
-    #heures_passage = np.array(heures_passage)
-    #heures_passage[heures_passage[:,0].argsort()] # on trie le tableau par heure d'entrée croissante
     for t in range(h_min, h_max+1):
         for ind_train in range(len(heures_passage)):
             if heures_passage[ind_train][0] == t:
@@ -277,6 +322,12 @@ def verif_troncon_2voies(plan, troncon_verif):
 
 def verif_troncon_3voies(plan, troncon_verif):
     """
+    Une fonction qui permet de vérifier si un tronçon à 3 voies n'est pas surchargé.
+    Entrees :
+        plan = le plan à vérifier
+        troncon_verif = le tronçon sur lequel notre étude va porter
+    Sorties :
+        un booléen, True si non surchargé et False sinon
     """
     Occupation1 = []
     Occupation2 = []
@@ -349,6 +400,12 @@ def verif_troncon_3voies(plan, troncon_verif):
 
 def verif_troncon_4voies(plan, troncon_verif):
     """
+    Une fonction qui permet de vérifier si un tronçon à 4 voies n'est pas surchargé.
+    Entrees :
+        plan = le plan à vérifier
+        troncon_verif = le tronçon sur lequel notre étude va porter
+    Sorties :
+        un booléen, True si non surchargé et False sinon
     """
     Occupation1 = []
     Occupation2 = []
@@ -424,6 +481,15 @@ def verif_troncon_4voies(plan, troncon_verif):
     return True
 
 def dist_noeuds_ligne(troncons_l, sens_parcours):
+    """
+    Donne la liste des noeuds ordonnées dans le sens de parcours de la ligne, ainsi que les distances depuis l'origine correspondantes
+    Entrees :
+        troncons_l = la liste des tronçons de la ligne
+        sens_parcours = une liste de la même taille que le liste des tronçons qui nous donne le sens de parcours de chaque tronçon
+    Sorties :
+        dist_gares_ligne = la liste des distances depuis l'origine de chaque noeud
+        noeuds_l = la liste des noeuds de la ligne dans l'ordre du sens de parcours de la ligne
+    """
     kmt = 0
     if sens_parcours[0] :
         noeuds_l = [troncons_l[0][0]]
@@ -441,13 +507,21 @@ def dist_noeuds_ligne(troncons_l, sens_parcours):
     return dist_gares_ligne, noeuds_l
 
 def verif_noeud(plan, noeud_verif):
+    """
+    Une fonction qui permet de vérifier si un noeud n'est pas surchargé
+    Entrees :
+        plan = le plan de transport que l'on veut vérifier
+        noeud_verif = le noeud concerné par la vérification
+    Sortie :
+        un booléen, True s'il n'est pas surchargé, False sinon
+    """
     Occupation = []
     heures_passage = []
     h_entree, h_sortie = [], []
     capacite = capa_noeuds[noeud_verif]
     for i_ligne in range(len(plan[0])):
         if plan[2][i_ligne] != -1:
-            troncons, sens_troncons = troncons_lignes[plan[0][i_ligne]][0:2] # A FINIR
+            troncons, sens_troncons = troncons_lignes[plan[0][i_ligne]][0:2]
             if noeud_verif in plan[5][i_ligne]:
                 ind_noeud = plan[5][i_ligne].index(noeud_verif)
                 if ind_noeud < len(plan[5][i_ligne]) - 1 and plan[5][i_ligne][ind_noeud + 1] == noeud_verif:
