@@ -14,23 +14,38 @@ from donnees_lignes import *
 from acceleration_train import *
 import copy
 
-lignes_normales = list(troncons_lignes.keys())
-lignes_pointe = list(troncons_lignes.keys()) + ['TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']
+lignes_ter1 = ['Roanne-Lyon', 'Roanne-Saint-Etienne', 'Lyon-Saint-Etienne', 'Lyon-Macon', 'Lyon-Valence', 'Lyon-Grenoble', 'Valence-Grenoble', 'Lyon-Roanne', 'StE-Roanne', 'StE-Lyon', 'Macon_Lyon', 'Valence-Lyon', 'Grenoble-Lyon', 'Grenoble-Valence']
+lignes_ter2 = ['Grenoble-Chambery', 'Chambery-Annecy', 'Lyon-Bourg-en-Bresse', 'Bourg-en-Bresse-Macon', 'Lyon-Chambery', 'Lyon-Annecy', 'Chambéry-Grenoble', 'Annecy-Chambéry', 'Bourg-en-Bresse-Lyon', 'Macon-Bourg-en-Bresse', 'Chambery-Lyon', 'Annecy-Lyon']
+tgv_normal = ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']
+tgv_pointe = tgv_normal*2
 
 heures_pointe = [7, 8, 9, 12, 13, 14, 17, 18, 19]
 indices_heures = []
 indices_heures_initial = 0
 plan = []
 
+<<<<<<< Updated upstream
 for _ in range(6, 24):
     if _ in heures_pointe:
         indices_heures.append([indices_heures_initial, indices_heures_initial + len(lignes_pointe)])
         plan += lignes_pointe
         indices_heures_initial += len(lignes_pointe)
+=======
+for _ in range(6, 8):
+    if _ % 2 == 0:
+        if _ in heures_pointe:
+            desserte_heure = lignes_ter1 + tgv_pointe
+        else:
+            desserte_heure = lignes_ter1 + tgv_normal
+>>>>>>> Stashed changes
     else :
-        indices_heures.append([indices_heures_initial, indices_heures_initial + len(lignes_normales)])
-        plan += lignes_normales
-        indices_heures_initial += len(lignes_normales)
+        if _ in heures_pointe:
+            desserte_heure = lignes_ter2 + tgv_pointe
+        else:
+            desserte_heure = lignes_ter2 + tgv_normal
+    plan += desserte_heure
+    indices_heures.append([indices_heures_initial, indices_heures_initial + len(desserte_heure)])
+    indices_heures_initial += len(desserte_heure)
 plan = [plan]
 
 plan = [list(troncons_lignes.keys())]
@@ -447,7 +462,7 @@ def verif_noeud(plan, noeud_verif):
                 if plan[5][ind_noeud + 1] == noeud_verif:
                     t_entree, t_sortie = plan[2][i_ligne][ind_noeud : ind_noeud + 2]
                 else :
-                    t_entree, t_sortie = plan[2][i_ligne][ind_noeud], plan[2][i_ligne][ind_noeud]
+                    t_entree, t_sortie = plan[2][i_ligne][ind_noeud], plan[2][i_ligne][ind_noeud] + 1
                 heures_passage.append([t_entree, t_sortie])
     if h_entree == [] :
         return True
