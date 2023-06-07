@@ -12,6 +12,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 from donnees_lignes import *
+import math
 
 """Le code suivant va permettre de calculer l'accélération d'un train en fonction de sa vitesse actuelle.
 Pour ce faire nous allons renseigner les données contenues dans Excel et les implémenter dans python.
@@ -221,7 +222,7 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
                 temps_parcours += temps_s/60
 
                 # Maj des données
-                heures.append(temps_parcours)
+                heures.append(math.ceil(temps_parcours))
                 distances.append(d_cumulee)
 
                 # Arrêt en gare
@@ -231,7 +232,7 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
                     temps_parcours += 2 # min
 
                 # Maj des données
-                heures.append(temps_parcours)
+                heures.append(math.ceil(temps_parcours))
                 distances.append(d_cumulee)
 
                 if sens_troncons[i]:
@@ -251,7 +252,7 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
                 d_cumulee += ti[3]
 
                 # Maj des données
-                heures.append(temps_parcours)
+                heures.append(math.ceil(temps_parcours))
                 distances.append(d_cumulee)
 
                 if sens_troncons[i]:
@@ -274,7 +275,7 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
                 d_cumulee += ti[3]
 
                 # Maj des données
-                heures.append(temps_parcours)
+                heures.append(math.ceil(temps_parcours))
                 distances.append(d_cumulee)
 
             else : # si ce n'est pas une desserte tgv dans le sens de la ligne tgv
@@ -285,13 +286,13 @@ def temps_parcours_ligne(ligne, train, min_depart, gares_desservies, sens_tronco
                 d_cumulee += ti[3]
 
                 # Maj des données
-                heures.append(temps_parcours)
+                heures.append(math.ceil(temps_parcours))
                 distances.append(d_cumulee)
 
                 temps_parcours += 10 # min
 
                 # Maj des données
-                heures.append(temps_parcours)
+                heures.append(math.ceil(temps_parcours))
                 distances.append(d_cumulee)
 
                 if sens_troncons[i]:

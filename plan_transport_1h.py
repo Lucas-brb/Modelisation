@@ -33,7 +33,7 @@ for _ in range(6, 24):
         indices_heures_initial += len(lignes_normales)
 plan = [plan]
 
-plan = [list(troncons_lignes.keys())[0:10]]
+plan = [list(troncons_lignes.keys())]
 #plan = [['Roanne-Lyon', 'Roanne-Saint-Etienne', 'Lyon-Saint-Etienne', 'Lyon-Macon', 'Lyon-Valence', 'Lyon-Grenoble', 'TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'Lyon-Roanne', 'StE-Roanne', 'StE-Lyon', 'Macon_Lyon', 'Valence-Lyon', 'Grenoble-Lyon', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']]
 plan.append([0 for i in range(len(plan[0]))])
 plan.append([-1 for i in range(len(plan[0]))])
@@ -434,20 +434,20 @@ def dist_noeuds_ligne(troncons_l, sens_parcours):
             noeuds_l.append(troncons_l[i][0])
     return dist_gares_ligne, noeuds_l
 
-def verif_noeud(plan, noeud_verif, h_max):
+def verif_noeud(plan, noeud_verif):
     Occupation = []
     heures_passage = []
     h_entree, h_sortie = [], []
-    capacite = capa_noeud[noeud_verif]
+    capacite = capa_noeuds[noeud_verif]
     for i_ligne in range(len(plan[0])):
         if plan[2][i_ligne] != -1:
             troncons, sens_troncons = troncons_lignes[plan[0][i_ligne]][0:2] # A FINIR
-            if noeud_verif in plan[5][ind_ligne]:
-                ind_noeud = plan[5].index(noeud_verif)
+            if noeud_verif in plan[5][i_ligne]:
+                ind_noeud = plan[5][i_ligne].index(noeud_verif)
                 if plan[5][ind_noeud + 1] == noeud_verif:
                     t_entree, t_sortie = plan[2][i_ligne][ind_noeud : ind_noeud + 2]
                 else :
-                    t_entree, t_sortie = plan[2][i_ligne][ind_noeud]*2
+                    t_entree, t_sortie = plan[2][i_ligne][ind_noeud], plan[2][i_ligne][ind_noeud]
                 heures_passage.append([t_entree, t_sortie])
     if h_entree == [] :
         return True
@@ -455,8 +455,15 @@ def verif_noeud(plan, noeud_verif, h_max):
     h_max = int(max(h_sortie))
     for t in range(h_min, h_max+1):
         for ind_train in range(len(heures_passage)):
-            if heures_passage[ind_train][0] == t
-
+            if heures_passage[ind_train][0] == t :
+                if len(Occupation) < capacite:
+                    Occupation.append(ind_train)
+                else :
+                    return False
+            elif heures_passage[ind_train][1] == t:
+                if ind_train in Occupation:
+                    del Occupation[Occupation.index(ind_train)]
+    return True
 
 #def bien_places(plan):
 
@@ -477,4 +484,7 @@ def verif_plan(plan):
         else :
             if not(verif_troncon_4voies(plan, t)):
                 return False
+    for noeud_v in list(capa_noeuds.keys()):
+        if not(verif_noeud(plan, noeud_v)):
+            return False
     return True
