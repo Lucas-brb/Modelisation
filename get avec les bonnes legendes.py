@@ -777,27 +777,28 @@ def g_e_t(ligne, plan):
     for w in dist_cor_troncons:
         plt.axhline(y = w[1], linestyle = '--', color = 'grey', linewidth = 0.5)
     distances, gares = dist_noeuds_ligne(troncons[0], troncons[1])
+
     axes.set_yticks(distances)
     axes.set_yticklabels(gares)
     axes.set_xticks([k*60 for k in range(18)])
     axes.set_xticklabels(['6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'])
     plt.xticks(rotation = 90)
     #axes.set_x_ticks_minor(0, 17*60, 1)
-    lignes_legende = ['Roanne-Lyon / Lyon-Roanne', 'Roanne-Saint-Etienne / Saint-Etienne-Roanne', 'Lyon-Saint-Etienne / Saint-Etienne-Lyon', 'Lyon-Mâcon / Mâcon-Lyon', 'Lyon-Valence / Valence-Lyon', 'Lyon-Grenoble / Grenoble-Lyon', 'Valence-Grenoble / Grenoble-Valence', 'Grenoble-Chambéry / Chambéry-Grenoble', 'Chambéry-Annecy / Annecy-Chambéry', 'Lyon-Bourg-En-Bresse / Bourg-En-Bresse-Lyon', 'Mâcon-Bourg-En-Bresse / Bourg-En-Bresse-Mâcon','Lyon-Chambéry / Chambéry-Lyon', 'Lyon-Annecy / Annecy-Lyon', 'TGV Creusot-Lyon / TGV Lyon-Creusot', 'TGV Lyon-Marseille / TGV Marseille-Lyon', 'TGV Lyon-Montpellier / TGV Montpellier-Lyon', 'TGV Lille-Grenoble / TGV Grenoble-Lille']
+    #lignes_legende = ['Roanne-Lyon / Lyon-Roanne', 'Roanne-Saint-Etienne / Saint-Etienne-Roanne', 'Lyon-Saint-Etienne / Saint-Etienne-Lyon', 'Lyon-Mâcon / Mâcon-Lyon', 'Lyon-Valence / Valence-Lyon', 'Lyon-Grenoble / Grenoble-Lyon', 'Valence-Grenoble / Grenoble-Valence', 'Grenoble-Chambéry / Chambéry-Grenoble', 'Chambéry-Annecy / Annecy-Chambéry', 'Lyon-Bourg-En-Bresse / Bourg-En-Bresse-Lyon', 'Mâcon-Bourg-En-Bresse / Bourg-En-Bresse-Mâcon','Lyon-Chambéry / Chambéry-Lyon', 'Lyon-Annecy / Annecy-Lyon', 'TGV Creusot-Lyon / TGV Lyon-Creusot', 'TGV Lyon-Marseille / TGV Marseille-Lyon', 'TGV Lyon-Montpellier / TGV Montpellier-Lyon', 'TGV Lille-Grenoble / TGV Grenoble-Lille']
+    lignes_legende = ['Lyon-Roanne', 'Roanne-Saint-Etienne', 'Lyon-Saint-Etienne', 'Lyon-Mâcon', 'Lyon-Valence', 'Lyon-Grenoble', 'Valence-Grenoble', 'Grenoble-Chambéry', 'Chambéry-Annecy', 'Lyon-Bourg-En-Bresse', 'Mâcon-Bourg-En-Bresse','Lyon-Chambéry', 'Lyon-Annecy', 'TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble']
     colors = ['red', 'green', 'purple', 'springgreen', 'cyan', 'deepskyblue', 'blueviolet', 'gold', 'magenta', 'hotpink', 'navy', 'grey', 'sienna', 'orange', 'olive', 'black', 'blue']
 
-
-    # Créer une figure et un axe
-    #fig, ax = plt.subplots()
 
         # Parcourir les étiquettes et les couleurs et les ajouter à la légende
     handles_l = []
     for label, color in zip(lignes_legende, colors):
-        line, = ax.plot([], [], label=label, color=color)
+        line, = axes.plot([], [], label=label, color=color)
         handles_l.append(line)
 
         # Obtenir la légende
-    plt.legend(handles=handles_l, loc='upper left', bbox_to_anchor=(0.9, 1), numpoints=len(lignes_legende))
+    plt.legend(handles=handles_l, loc='upper left', bbox_to_anchor=(1, 1), numpoints=len(lignes_legende))
+    plt.subplots_adjust(right=0.7)
+
 
     plt.show()
     plt.grid(visible = True, color = 'grey', linewidth = 0.1, linestyle = '--')
@@ -806,7 +807,6 @@ def g_e_t(ligne, plan):
 g_e_t(plan[0][0],plan_glob)
 
 """.0
-
 axes = plt.axes()
 plt.plot(heures, distances)
 gares = ['Roanne', 'Feurs', 'Saint Just Saint Rambert', 'Saint Etienne']
