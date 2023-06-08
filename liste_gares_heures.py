@@ -21,13 +21,13 @@ def Liste_Gares_Heures(ligne,plan): #ligne sous la forme 'Roanne-Lyon'
             if sens_parcours[i] == True:
                 if troncons_l[i][0] in gares:
                     Gares.append(troncons_l[i][0])
-                    Gares.append(troncons_l[i][0])
+                    #Gares.append(troncons_l[i][0])
                 else:
                     indices.append(i)
             elif sens_parcours[i] == False:
                 if troncons_l[i][1] in gares:
                     Gares.append(troncons_l[i][1])
-                    Gares.append(troncons_l[i][1])
+                    #Gares.append(troncons_l[i][1])
                 else:
                     indices.append(i)
         if i == len(troncons_l)-1: #est-ce le terminus
@@ -45,7 +45,16 @@ def Liste_Gares_Heures(ligne,plan): #ligne sous la forme 'Roanne-Lyon'
     for k in range (len(indice_plan)):
         for l in range (0, len(plan[2][indice_plan[k]])-1):
             Heures[k].append(plan[2][indice_plan[k]][l+1])
-
+            if plan[2][indice_plan[k]][1]<420 or 600<=plan[2][indice_plan[k]][1]<720 or 900<=plan[2][indice_plan[k]][1]<1020 or 1200<=plan[2][indice_plan[k]][1]: #si on n'est pas en heure de pointe, comprendre 420 comme 7h car 420=7x60 min
+                for h in range (1,len(Heures[k])-1):
+                    if Heures[k][h+1]-Heures[k][h]==2 :
+                        Heures[k][h]=Heures[k][h+1]
+                Heur = []
+                for z in range (len(Heures[k])-1):
+                    if Heures[k][z]!=Heures[k][z+1]:
+                        Heur.append(Heures[k][z])
+                Heur.append(Heures[k][len(Heures[k])-1])
+                Heures[k]=Heur #on transforme la liste des heures où il y avait des heures d'arrivée et de départ aux gares intermediaires en liste des heures où les trains ne font que passer par ces gares sans s'y arrêter
     #on retire les heures correspond aux points qui ne sont pas des gares desservies
     for k in range (len(indice_plan)):
         Heures[k] = [Heures[k][i] for i in range(len(Heures[k])) if not(i in indices)]
