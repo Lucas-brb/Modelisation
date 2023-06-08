@@ -20,6 +20,7 @@ tgv_normal = ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 
 tgv_pointe = tgv_normal*2
 
 heures_pointe = [7, 8, 9, 12, 13, 14, 17, 18, 19]
+min_pointe = [_ for _ in range(7*60, 9*60)] + [_ for _ in range(12*60, 14*60)] + [_ for _ in range(17*60, 18*60)]
 indices_heures = []
 indices_heures_initial = 0
 plan = []
@@ -46,7 +47,7 @@ plan.append([-1 for i in range(len(plan[0]))])
 plan.append([0 for i in range(len(plan[0]))])
 plan.append([0 for i in range(len(plan[0]))])
 plan.append([0 for i in range(len(plan[0]))])
-lignesOK = [False for i in range(len(plan[0]))]
+liste_lignesOK = [False for i in range(len(plan[0]))]
 
 
 def plus_petite_longueur(l):
@@ -71,7 +72,7 @@ plan = [
 [liste trains utilisés]
 ]
 """
-def Ajout_train(plan, lignesOK):
+def Ajout_train(plan, lignesOK, indices_heures, min_pointe):
     '''
     Permet d'ajouter un train à un plan de transport.
     Entrees :
@@ -114,14 +115,27 @@ def Ajout_train(plan, lignesOK):
             train_utilise = noms_trains[nom_train_utilise]
 
             # on calcule le temps mis par le train pour parcourir sa ligne
-            heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
+            #heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
+            #gares_desservies = gares_desservables[nom_ligne]
 
             # on va tester sur toutes les minutes de la journée s'il est possible de faire démarrer le train à cette heure
-            for h_depart in range(6*60, 22*60):
+            for i in range(len(indices_heures)):
+                if ind_ligne_test in range(indices_heures[i][0], indices_heures[i][1]):
+                    h_d_min , h_d_max = 60*(i+6), 60*(i+7)
+
+            # on calcule le temps mis par le train pour parcourir sa ligne
+            #print(h_d_min, h_d_max)
+            if h_d_min in min_pointe and not(nom_ligne in ['TGV Lille-Grenoble', 'TGV Grenoble-Lille']):
+                heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, "", ligne_etudiee[1])
+                gares_desservies = []
+            else:
+                heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
+                gares_desservies = gares_desservables[nom_ligne]
+            for h_depart in range(h_d_min, h_d_max):
                 heures_n = [h + h_depart for h in heures]
                 plan_copie[1][ind_ligne_test] = distances
                 plan_copie[2][ind_ligne_test] = heures_n
-                plan_copie[3][ind_ligne_test] = gares_desservables[nom_ligne]
+                plan_copie[3][ind_ligne_test] = gares_desservies
                 plan_copie[4][ind_ligne_test] = nom_train_utilise
                 plan_copie[5][ind_ligne_test] = noeuds_desservis
                 if verif_plan(plan_copie): # si on peut faire partir le train sur la ligne considérée à l'heure voulue
@@ -130,19 +144,25 @@ def Ajout_train(plan, lignesOK):
 
         # si un des trains ne peut pas partir avec ce plan de transport, on est bloqués
         if any(len(x) == 0 for x in heures_possibles) :
-            ind_ligne = rd.randint(0, len(lignesOK)-1)
+            for p in range(len(heures_possibles)):
+                if len(heures_possibles[p]) == 0:
+                    break
+            for n in range(len(indices_heures)):
+                if p in range(indices_heures[n][0], indices_heures[n][1]):
+                    break
+            ind_ligne = rd.randint(indices_heures[n][0], indices_heures[n][1])
 
             # on retire un élément au hasard du plan
             if not(all(not(x) for x in lignesOK)):
                 while not(lignesOK[ind_ligne]) :
-                    ind_ligne = rd.randint(0, len(lignesOK)-1)
+                    ind_ligne = rd.randint(indices_heures[n][0], indices_heures[n][1])
                 plan[1][ind_ligne] = -1
                 plan[2][ind_ligne] = -1
                 plan[3][ind_ligne] = ""
                 plan[4][ind_ligne] = ""
                 plan[5][ind_ligne] = 0
                 lignesOK[ind_ligne] = False
-        else : # si l'on n'est pas bloqués
+        else : # si on n'est pas bloqués
             index = plus_petite_longueur(heures_possibles) # on récupère le liste des indices des listes de plus petite longueur dans heures_possibles
             i = rd.choice(index)
             ind_ligne = ind_lignes_nOK[i]
@@ -151,14 +171,19 @@ def Ajout_train(plan, lignesOK):
             nom_train_utilise = trains[i]
             train_utilise = noms_trains[nom_train_utilise]
             h_depart = heures_possibles[i][0]
-            heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, h_depart, gares_desservables[nom_ligne], ligne_etudiee[1])
+            if h_d_min in min_pointe and not(nom_ligne in ['TGV Lille-Grenoble', 'TGV Grenoble-Lille']):
+                heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, h_depart, "", ligne_etudiee[1])
+                gares_desservies = []
+            else:
+                heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, h_depart, gares_desservables[nom_ligne], ligne_etudiee[1])
+                gares_desservies = gares_desservables[nom_ligne]
             plan[1][ind_ligne] = distances
             plan[2][ind_ligne] = heures
-            plan[3][ind_ligne] = gares_desservables[nom_ligne]
+            plan[3][ind_ligne] = gares_desservies
             plan[4][ind_ligne] = nom_train_utilise
             plan[5][ind_ligne] = noeuds_desservis
             lignesOK[ind_ligne] = True
-        return Ajout_train(plan, lignesOK)
+        return Ajout_train(plan, lignesOK, indices_heures, min_pointe)
         '''
         nb_iteration = len([1 for i in lignesOK if not(i)])
         ind_ligne = rd.randint(0, len(lignesOK)-1)
@@ -491,19 +516,18 @@ def dist_noeuds_ligne(troncons_l, sens_parcours):
         noeuds_l = la liste des noeuds de la ligne dans l'ordre du sens de parcours de la ligne
     """
     kmt = 0
-    if sens_parcours[0] :
+    if sens_parcours[0] : # si le tronçon est parcouru dans le sens positif
         noeuds_l = [troncons_l[0][0]]
     else :
         noeuds_l = [troncons_l[0][1]]
     dist_gares_ligne = [0]
     for i in range(len(troncons_l)):
-        kmt += troncons_l[i][3]
+        kmt += troncons_l[i][3] # on ajoute la distance du tronçon qui sépare nos deux noeuds
         if sens_parcours[i] :
-            dist_gares_ligne.append(kmt)
             noeuds_l.append(troncons_l[i][1])
         else :
-            dist_gares_ligne.append(kmt)
             noeuds_l.append(troncons_l[i][0])
+        dist_gares_ligne.append(kmt)
     return dist_gares_ligne, noeuds_l
 
 def verif_noeud(plan, noeud_verif):
@@ -534,15 +558,18 @@ def verif_noeud(plan, noeud_verif):
     h_min = int(min(h_entree))
     h_max = int(max(h_sortie))
     for t in range(h_min, h_max+1):
+        a_supprimer = []
         for ind_train in range(len(heures_passage)):
             if heures_passage[ind_train][0] == t :
                 if len(Occupation) < capacite:
                     Occupation.append(ind_train)
                 else :
                     return False
-            elif heures_passage[ind_train][1] == t:
+            if heures_passage[ind_train][1] == t:
                 if ind_train in Occupation:
-                    del Occupation[Occupation.index(ind_train)]
+                    a_supprimer.append(ind_train)
+        for elt in a_supprimer:
+            del Occupation[Occupation.index(elt)]
     return True
 
 def bien_places(plan, ind_h):
