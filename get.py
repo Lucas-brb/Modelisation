@@ -91,8 +91,6 @@ def g_e_t(ligne, plan):
     axes.set_xticks([(k+6)*60 for k in range(18)])
     axes.set_xticklabels(['6:00', '7:00', '8:00', '9:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00', '23:00'])
     plt.xticks(rotation = 90)
-    #axes.set_x_ticks_minor(0, 17*60, 1)
-    #plt.legend()
     plt.show()
     plt.grid(visible = True, color = 'grey', linewidth = 0.1, linestyle = '--')
     plt.close()

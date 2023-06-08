@@ -14,12 +14,21 @@ from donnees_lignes import *
 from acceleration_train import *
 import copy
 
+"""
+plan = [
+[liste des lignes]
+[liste distance par ligne]
+[liste des heures]
+[liste gares desservies]
+[liste trains utilisés]
+]
+"""
+
 lignes_ter1 = ['Lyon-Chambery', 'Roanne-Saint-Etienne', 'Grenoble-Chambery', 'Lyon-Macon', 'Lyon-Valence', 'Lyon-Grenoble', 'Valence-Grenoble', 'Chambery-Lyon', 'StE-Roanne', 'Chambéry-Grenoble', 'Macon_Lyon', 'Valence-Lyon', 'Grenoble-Lyon', 'Grenoble-Valence']
 lignes_ter2 = ['Lyon-Saint-Etienne', 'Chambery-Annecy', 'Lyon-Bourg-en-Bresse', 'Bourg-en-Bresse-Macon', 'Roanne-Lyon', 'Lyon-Annecy', 'StE-Lyon', 'Annecy-Chambéry', 'Bourg-en-Bresse-Lyon', 'Macon-Bourg-en-Bresse','Lyon-Roanne', 'Annecy-Lyon']
 tgv_normal = ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']
 tgv_pointe = tgv_normal*2
 
-#h_depart_tgv = {'TGV Creusot-Lyon' : , 'TGV Lyon-Marseille' : 0, 'TGV Lyon-Montpellier' : 4 , 'TGV Lille-Grenoble' : , 'TGV Lyon-Creusot' : 0, 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille'}
 
 heures_pointe = [7, 8, 9, 12, 13, 14, 17, 18, 19]
 min_pointe = [_ for _ in range(7*60, 9*60)] + [_ for _ in range(12*60, 14*60)] + [_ for _ in range(17*60, 18*60)]
@@ -42,8 +51,6 @@ for _ in range(6, 23):
     indices_heures_initial += len(desserte_heure)
 plan = [plan]
 
-#plan = [list(troncons_lignes.keys())]
-#plan = [['Roanne-Lyon', 'Roanne-Saint-Etienne', 'Lyon-Saint-Etienne', 'Lyon-Macon', 'Lyon-Valence', 'Lyon-Grenoble', 'TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'Lyon-Roanne', 'StE-Roanne', 'StE-Lyon', 'Macon_Lyon', 'Valence-Lyon', 'Grenoble-Lyon', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']]
 plan.append([0 for i in range(len(plan[0]))])
 plan.append([-1 for i in range(len(plan[0]))])
 plan.append([0 for i in range(len(plan[0]))])
@@ -65,15 +72,6 @@ def plus_petite_longueur(l):
             index.append(_)
     return index
 
-"""
-plan = [
-[liste des lignes]
-[liste distance par ligne]
-[liste des heures]
-[liste gares desservies]
-[liste trains utilisés]
-]
-"""
 def Ajout_train(plan, lignesOK, indices_heures, min_pointe):
     '''
     Permet d'ajouter un train à un plan de transport.
@@ -146,10 +144,15 @@ def Ajout_train(plan, lignesOK, indices_heures, min_pointe):
 
         # si un des trains ne peut pas partir avec ce plan de transport, on est bloqués
         if any(len(x) == 0 for x in heures_possibles) :
-            print(heures_possibles)
             for p in range(len(heures_possibles)):
                 if len(heures_possibles[p]) == 0:
                     break
+            print(p)
+            '''ind_ligne_bug = ind_lignes_nOK[p]
+            if not(plan[0][ind_ligne_bug] in ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille'] :
+                for h in range(len(plan)):
+                    del plan[h][ind_ligne_bug]
+                del lignesOK [ind_ligne_bug]'''
             for n in range(len(indices_heures)):
                 print(indices_heures[n][0], indices_heures[n][1])
                 if p in range(indices_heures[n][0], indices_heures[n][1]):
@@ -458,6 +461,8 @@ def verif_troncon_4voies(plan, troncon_verif):
     #heures_passage[heures_passage[:,0].argsort()] # on trie le tableau par heure d'entrée croissante
     for t in range(h_min, h_max+1):
         for ind_train in range(len(heures_passage)):
+            if ind_train == 13:
+                pass
             if heures_passage[ind_train][0] == t:
                 if heures_passage[ind_train][2] : # on parcourt le tronçon dans le sens positif
                     if len(Occupation1) == 0:
@@ -592,6 +597,11 @@ def bien_places(plan, ind_h):
 
 def verif_plan(plan):
     """
+    Verifie si un plan de transport est bon
+    Entree :
+        plan = le plan de transport qu'on veut vérifier
+    Sortie :
+        un booléen : True si le plan est bon, False sinon
     """
     _troncons_verif = [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, l16, l17, l18, l20, l21, l22, l22bis, l23, l24, l25, l26, l27, l27bis, l28, l28bis, l29, l30, l31, l32, l33, l34, l35, l36, l37, l38, l39, l40, l41, l42, l43, l44, l45, l46, l47, l48, l49, l50, l51, l52, l53, l54, l55, l56, l57, l58, l59, l60, l61]
     for t in _troncons_verif:
