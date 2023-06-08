@@ -14,7 +14,7 @@ def Grille_horaire(ligne,plan):
     fig, ax = plt.subplots()
 
 # Création du tableau
-    table = ax.table(cellText=table_data_transposed, colLabels=['Gares', 'Heure de passage', 'Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage','Heure de passage'], loc='center')
+    table = ax.table(cellText=table_data_transposed, colLabels=['Gares', 'Horaire', 'Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire','Horaire'], loc='center')
 
 # Style du tableau
     table.auto_set_font_size(False)
