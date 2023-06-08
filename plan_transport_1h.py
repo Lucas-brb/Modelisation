@@ -14,10 +14,12 @@ from donnees_lignes import *
 from acceleration_train import *
 import copy
 
-lignes_ter1 = ['Roanne-Lyon', 'Roanne-Saint-Etienne', 'Lyon-Saint-Etienne', 'Lyon-Macon', 'Lyon-Valence', 'Lyon-Grenoble', 'Valence-Grenoble', 'Lyon-Roanne', 'StE-Roanne', 'StE-Lyon', 'Macon_Lyon', 'Valence-Lyon', 'Grenoble-Lyon', 'Grenoble-Valence']
-lignes_ter2 = ['Grenoble-Chambery', 'Chambery-Annecy', 'Lyon-Bourg-en-Bresse', 'Bourg-en-Bresse-Macon', 'Lyon-Chambery', 'Lyon-Annecy', 'Chambéry-Grenoble', 'Annecy-Chambéry', 'Bourg-en-Bresse-Lyon', 'Macon-Bourg-en-Bresse', 'Chambery-Lyon', 'Annecy-Lyon']
+lignes_ter1 = ['Lyon-Chambery', 'Roanne-Saint-Etienne', 'Grenoble-Chambery', 'Lyon-Macon', 'Lyon-Valence', 'Lyon-Grenoble', 'Valence-Grenoble', 'Chambery-Lyon', 'StE-Roanne', 'Chambéry-Grenoble', 'Macon_Lyon', 'Valence-Lyon', 'Grenoble-Lyon', 'Grenoble-Valence']
+lignes_ter2 = ['Lyon-Saint-Etienne', 'Chambery-Annecy', 'Lyon-Bourg-en-Bresse', 'Bourg-en-Bresse-Macon', 'Roanne-Lyon', 'Lyon-Annecy', 'StE-Lyon', 'Annecy-Chambéry', 'Bourg-en-Bresse-Lyon', 'Macon-Bourg-en-Bresse','Lyon-Roanne', 'Annecy-Lyon']
 tgv_normal = ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']
 tgv_pointe = tgv_normal*2
+
+#h_depart_tgv = {'TGV Creusot-Lyon' : , 'TGV Lyon-Marseille' : 0, 'TGV Lyon-Montpellier' : 4 , 'TGV Lille-Grenoble' : , 'TGV Lyon-Creusot' : 0, 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille'}
 
 heures_pointe = [7, 8, 9, 12, 13, 14, 17, 18, 19]
 min_pointe = [_ for _ in range(7*60, 9*60)] + [_ for _ in range(12*60, 14*60)] + [_ for _ in range(17*60, 18*60)]
@@ -144,10 +146,12 @@ def Ajout_train(plan, lignesOK, indices_heures, min_pointe):
 
         # si un des trains ne peut pas partir avec ce plan de transport, on est bloqués
         if any(len(x) == 0 for x in heures_possibles) :
+            print(heures_possibles)
             for p in range(len(heures_possibles)):
                 if len(heures_possibles[p]) == 0:
                     break
             for n in range(len(indices_heures)):
+                print(indices_heures[n][0], indices_heures[n][1])
                 if p in range(indices_heures[n][0], indices_heures[n][1]):
                     break
             ind_ligne = rd.randint(indices_heures[n][0], indices_heures[n][1])
