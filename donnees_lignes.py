@@ -68,8 +68,8 @@ l44=[gares[25],gares[24],140,46,1,2]
 l45=[gares[24],gares[23],160,15,1,2]
 
 l46=[gares[23],gares[20],110,14,1,2]
-l47=[gares[20],gares[21],115,20,1,2]
-l48=[gares[21],gares[22],115,18,1,2]
+l47=[gares[20],gares[21],115,20,1,1]
+l48=[gares[21],gares[22],115,18,1,1]
 
 l49=[bifurcations[0],gares[11],140,4,1,2]
 l50=[gares[11],gares[10],140,25,0,2]

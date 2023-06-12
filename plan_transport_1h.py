@@ -24,8 +24,8 @@ plan = [
 ]
 """
 
-lignes_ter1 = ['Lyon-Chambery', 'Roanne-Saint-Etienne', 'Grenoble-Chambery', 'Lyon-Macon', 'Lyon-Valence', 'Lyon-Grenoble', 'Valence-Grenoble', 'Chambery-Lyon', 'StE-Roanne', 'Chambéry-Grenoble', 'Macon_Lyon', 'Valence-Lyon', 'Grenoble-Lyon', 'Grenoble-Valence']
-lignes_ter2 = ['Lyon-Saint-Etienne', 'Chambery-Annecy', 'Lyon-Bourg-en-Bresse', 'Bourg-en-Bresse-Macon', 'Roanne-Lyon', 'Lyon-Annecy', 'StE-Lyon', 'Annecy-Chambéry', 'Bourg-en-Bresse-Lyon', 'Macon-Bourg-en-Bresse','Lyon-Roanne', 'Annecy-Lyon']
+lignes_ter1 = ['Lyon-Chambery', 'Chambery-Annecy', 'Grenoble-Chambery', 'Lyon-Macon', 'Lyon-Valence', 'Lyon-Grenoble', 'Valence-Grenoble', 'Chambery-Lyon', 'Annecy-Chambéry', 'Chambéry-Grenoble', 'Macon_Lyon', 'Valence-Lyon', 'Grenoble-Lyon', 'Grenoble-Valence']
+lignes_ter2 = ['Lyon-Saint-Etienne', 'Roanne-Saint-Etienne', 'Lyon-Bourg-en-Bresse', 'Bourg-en-Bresse-Macon', 'Roanne-Lyon', 'Lyon-Annecy', 'StE-Lyon', 'StE-Roanne', 'Bourg-en-Bresse-Lyon', 'Macon-Bourg-en-Bresse','Lyon-Roanne', 'Annecy-Lyon']
 tgv_normal = ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']
 tgv_pointe = tgv_normal*2
 
@@ -35,7 +35,7 @@ min_pointe = [_ for _ in range(7*60, 9*60)] + [_ for _ in range(12*60, 14*60)] +
 indices_heures = []
 indices_heures_initial = 0
 plan = []
-for _ in range(6, 23):
+for _ in range(6, 21):
     if _ % 2 == 0:
         if _ in heures_pointe:
             desserte_heure = lignes_ter1 + tgv_pointe
@@ -81,7 +81,169 @@ def Ajout_train(plan, lignesOK, indices_heures, min_pointe):
         (les indices avec le plan correspondent)
     Sortie :
         plan = le plan de transport fini
-    Remarque : cette fonctnio est une fonction récursive.
+    Remarque : cette fonction est une fonction récursive.
+    '''
+    if all(lignesOK):
+        return plan
+    else :
+
+        # on prend l'indice des lignes qui ne sont pas encore intégrées
+        ind_lignes_nOK = [i for i in range(len(lignesOK)) if not(lignesOK[i])]
+        print(len(ind_lignes_nOK))
+
+        # initialisation
+        heures_possibles = [[] for _ in range(len(ind_lignes_nOK))]
+        trains = []
+
+        for ind_ligne in range(len(ind_lignes_nOK)) : # ind_ligne = indice dans ind_ligne_nOK
+            plan_copie = copy.deepcopy(plan) # on n'interfère pas avec le vrai plan de transport
+            ind_ligne_test = ind_lignes_nOK[ind_ligne] # ind_ligne_test = indice de la ligne dans le plan de transport en entrée
+            nom_ligne = plan[0][ind_ligne_test] # str
+            ligne_etudiee = troncons_lignes[nom_ligne] # on prend la liste et l'orientation des tronçons qui constituent la ligne considérée.
+
+            # si c'est un desserte TGV
+            if nom_ligne in ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']:
+                nom_train_utilise = 'TGV'
+
+            # si la ligne n'est pas électrifiée
+            elif ligne_etudiee[2] == False :
+                nom_train_utilise = 'Autorail'
+            else : # sinon, on prend au hasard entre les deux autres types de matériel
+                nom_train_utilise = rd.choice(['2N', 'Regiolis'])
+
+            # recuperation des caractéristiques techniques du train
+            train_utilise = noms_trains[nom_train_utilise]
+
+            # on calcule le temps mis par le train pour parcourir sa ligne
+            #heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
+            #gares_desservies = gares_desservables[nom_ligne]
+
+            # on va tester sur toutes les minutes de la journée s'il est possible de faire démarrer le train à cette heure
+            for i in range(len(indices_heures)):
+                if ind_ligne_test in range(indices_heures[i][0], indices_heures[i][1]):
+                    h_d_min , h_d_max = 60*(i+6), 60*(i+7)
+
+            # on calcule le temps mis par le train pour parcourir sa ligne
+            #print(h_d_min, h_d_max)
+            if h_d_min in min_pointe and not(nom_ligne in ['TGV Lille-Grenoble', 'TGV Grenoble-Lille']):
+                heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, "", ligne_etudiee[1])
+                gares_desservies = []
+            else:
+                heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
+                gares_desservies = gares_desservables[nom_ligne]
+            for h_depart in range(h_d_min, h_d_max):
+                heures_n = [h + h_depart for h in heures]
+                plan_copie[1][ind_ligne_test] = distances
+                plan_copie[2][ind_ligne_test] = heures_n
+                plan_copie[3][ind_ligne_test] = gares_desservies
+                plan_copie[4][ind_ligne_test] = nom_train_utilise
+                plan_copie[5][ind_ligne_test] = noeuds_desservis
+                if verif_plan(plan_copie): # si on peut faire partir le train sur la ligne considérée à l'heure voulue
+                    heures_possibles[ind_ligne].append(h_depart)
+            trains.append(nom_train_utilise)
+
+        # si un des trains ne peut pas partir avec ce plan de transport, on est bloqués
+        if any(len(x) == 0 for x in heures_possibles) :
+            for p in range(len(heures_possibles)):
+                if len(heures_possibles[p]) == 0:
+                    break
+            print(p)
+            '''ind_ligne_bug = ind_lignes_nOK[p]
+            if not(plan[0][ind_ligne_bug] in ['TGV Creusot-Lyon', 'TGV Lyon-Marseille', 'TGV Lyon-Montpellier', 'TGV Lille-Grenoble', 'TGV Lyon-Creusot', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille'] :
+                for h in range(len(plan)):
+                    del plan[h][ind_ligne_bug]
+                del lignesOK [ind_ligne_bug]'''
+            for n in range(len(indices_heures)):
+                if p in range(indices_heures[n][0], indices_heures[n][1]):
+                    break
+            ind_ligne = rd.randint(indices_heures[n][0], indices_heures[n][1])
+
+            # on retire un élément au hasard du plan
+            if not(all(not(x) for x in lignesOK)):
+                while not(lignesOK[ind_ligne]) :
+                    ind_ligne = rd.randint(indices_heures[n][0], indices_heures[n][1])
+                plan[1][ind_ligne] = -1
+                plan[2][ind_ligne] = -1
+                plan[3][ind_ligne] = ""
+                plan[4][ind_ligne] = ""
+                plan[5][ind_ligne] = 0
+                lignesOK[ind_ligne] = False
+        else : # si on n'est pas bloqués
+            index = plus_petite_longueur(heures_possibles) # on récupère le liste des indices des listes de plus petite longueur dans heures_possibles
+            i = rd.choice(index)
+            ind_ligne = ind_lignes_nOK[i]
+            nom_ligne = plan[0][ind_ligne]
+            ligne_etudiee = troncons_lignes[nom_ligne]
+            nom_train_utilise = trains[i]
+            train_utilise = noms_trains[nom_train_utilise]
+            h_depart = heures_possibles[i][0]
+            if h_d_min in min_pointe and not(nom_ligne in ['TGV Lille-Grenoble', 'TGV Grenoble-Lille']):
+                heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, h_depart, "", ligne_etudiee[1])
+                gares_desservies = []
+            else:
+                heures, distances, noeuds_desservis = temps_parcours_ligne(ligne_etudiee[0], train_utilise, h_depart, gares_desservables[nom_ligne], ligne_etudiee[1])
+                gares_desservies = gares_desservables[nom_ligne]
+            plan[1][ind_ligne] = distances
+            plan[2][ind_ligne] = heures
+            plan[3][ind_ligne] = gares_desservies
+            plan[4][ind_ligne] = nom_train_utilise
+            plan[5][ind_ligne] = noeuds_desservis
+            lignesOK[ind_ligne] = True
+        return Ajout_train(plan, lignesOK, indices_heures, min_pointe)
+        '''
+        nb_iteration = len([1 for i in lignesOK if not(i)])
+        ind_ligne = rd.randint(0, len(lignesOK)-1)
+        while lignesOK[ind_ligne] :
+            ind_ligne = rd.randint(0, len(lignesOK)-1)
+        nom_ligne = plan[0][ind_ligne]
+        ligne_etudiee = troncons_lignes[nom_ligne]
+        if ligne_etudiee[0] in [TGV_Creusot_Lyon[0], TGV_Lyon_Marseille[0], TGV_Lyon_Montpellier[0], TGV_Lille_Grenoble[0]]:
+            train_utilise = tgv
+        elif ligne_etudiee[2] == False :
+            train_utilise = Ter_autorail
+        else :
+            train_utilise = rd.choice([Ter_2n, Ter_regiolis])
+        heures, distances = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
+        '''
+        '''
+        for _ in range(round(1000/(nb_iteration))):
+            h_depart = rd.randint(0,59)
+            heures_n = [h + h_depart for h in heures]
+            plan[1][ind_ligne] = distances
+            plan[2][ind_ligne] = heures_n
+            plan[3][ind_ligne] = '' # gares_desservables[nom_ligne]
+            plan[4][ind_ligne] = train_utilise
+            if verif_plan_1h(plan) :
+                lignesOK[ind_ligne] = True
+                return Ajout_train(plan, lignesOK)
+            # ça n'a pas marché, on réinitialise
+            plan[1][ind_ligne] = -1
+            plan[2][ind_ligne] = -1
+            plan[3][ind_ligne] = ""
+            plan[4][ind_ligne] = 0
+            lignesOK[ind_ligne] = False
+        ind_ligne = rd.randint(0, len(lignesOK)-1)
+        if not(all(not(x) for x in lignesOK)):
+            while not(lignesOK[ind_ligne]) :
+                ind_ligne = rd.randint(0, len(lignesOK)-1)
+            plan[1][ind_ligne] = -1
+            plan[2][ind_ligne] = -1
+            plan[3][ind_ligne] = ""
+            plan[4][ind_ligne] = 0
+            lignesOK[ind_ligne] = False
+        return Ajout_train(plan, lignesOK)
+    '''
+
+def Ajout_train_v2(plan, nb_desserte_ter, indices_heures, min_pointe):
+    '''
+    Permet d'ajouter un train à un plan de transport.
+    Entrees :
+        plan = le plan de transport actuel
+        lignesOK = la liste des lignes qui sont déjà incluses dans le plan de transport
+        (les indices avec le plan correspondent)
+    Sortie :
+        plan = le plan de transport fini
+    Remarque : cette fonction est une fonction récursive.
     '''
     if all(lignesOK):
         return plan
@@ -191,49 +353,6 @@ def Ajout_train(plan, lignesOK, indices_heures, min_pointe):
             plan[5][ind_ligne] = noeuds_desservis
             lignesOK[ind_ligne] = True
         return Ajout_train(plan, lignesOK, indices_heures, min_pointe)
-        '''
-        nb_iteration = len([1 for i in lignesOK if not(i)])
-        ind_ligne = rd.randint(0, len(lignesOK)-1)
-        while lignesOK[ind_ligne] :
-            ind_ligne = rd.randint(0, len(lignesOK)-1)
-        nom_ligne = plan[0][ind_ligne]
-        ligne_etudiee = troncons_lignes[nom_ligne]
-        if ligne_etudiee[0] in [TGV_Creusot_Lyon[0], TGV_Lyon_Marseille[0], TGV_Lyon_Montpellier[0], TGV_Lille_Grenoble[0]]:
-            train_utilise = tgv
-        elif ligne_etudiee[2] == False :
-            train_utilise = Ter_autorail
-        else :
-            train_utilise = rd.choice([Ter_2n, Ter_regiolis])
-        heures, distances = temps_parcours_ligne(ligne_etudiee[0], train_utilise, 0, gares_desservables[nom_ligne], ligne_etudiee[1])
-        '''
-        '''
-        for _ in range(round(1000/(nb_iteration))):
-            h_depart = rd.randint(0,59)
-            heures_n = [h + h_depart for h in heures]
-            plan[1][ind_ligne] = distances
-            plan[2][ind_ligne] = heures_n
-            plan[3][ind_ligne] = '' # gares_desservables[nom_ligne]
-            plan[4][ind_ligne] = train_utilise
-            if verif_plan_1h(plan) :
-                lignesOK[ind_ligne] = True
-                return Ajout_train(plan, lignesOK)
-            # ça n'a pas marché, on réinitialise
-            plan[1][ind_ligne] = -1
-            plan[2][ind_ligne] = -1
-            plan[3][ind_ligne] = ""
-            plan[4][ind_ligne] = 0
-            lignesOK[ind_ligne] = False
-        ind_ligne = rd.randint(0, len(lignesOK)-1)
-        if not(all(not(x) for x in lignesOK)):
-            while not(lignesOK[ind_ligne]) :
-                ind_ligne = rd.randint(0, len(lignesOK)-1)
-            plan[1][ind_ligne] = -1
-            plan[2][ind_ligne] = -1
-            plan[3][ind_ligne] = ""
-            plan[4][ind_ligne] = 0
-            lignesOK[ind_ligne] = False
-        return Ajout_train(plan, lignesOK)
-    '''
 
 def verif_troncon_1voie(plan, troncon_verif):
     """
@@ -286,7 +405,7 @@ def verif_troncon_1voie(plan, troncon_verif):
                             Occupation.append([ind_train, heures_passage[ind_train][2]])
                     else :
                         return False
-            elif heures_passage[ind_train][1] == t: # si un train sort à la minute t
+            if heures_passage[ind_train][1] == t: # si un train sort à la minute t
                 if len(Occupation) != 0:
 
                     # ce n'est pas le premier train qui est rentré qui ressort :  il y a rattrapage !
@@ -339,17 +458,11 @@ def verif_troncon_2voies(plan, troncon_verif):
                         return False
                     else :
                         Occupation2.append(ind_train)
-            elif heures_passage[ind_train][1] == t: # un train sort à la minute t
+            if heures_passage[ind_train][1] == t: # un train sort à la minute t
                 if ind_train in Occupation1:
-                    if Occupation1[0] != ind_train:
-                        return False
-                    else :
-                        del Occupation1[0]
+                    del Occupation1[Occupation1.index(ind_train)]
                 elif ind_train in Occupation2 :
-                    if Occupation2[0] != ind_train:
-                        return False
-                    else :
-                        del Occupation2[0]
+                    del Occupation2[Occupation2.index(ind_train)]
     return True
 
 def verif_troncon_3voies(plan, troncon_verif):
@@ -412,21 +525,13 @@ def verif_troncon_3voies(plan, troncon_verif):
                                 Occupation3.append([ind_train, heures_passage[ind_train][2]])
                     else :
                         Occupation2.append(ind_train)
-            elif heures_passage[ind_train][1] == t: # un train sort à la minute t
-                if ind_train in Occupation1:
-                    if Occupation1[0] != ind_train:
-                        return False
-                    else :
-                        del Occupation1[0]
-                elif ind_train in Occupation2:
-                    if Occupation2[0] != ind_train:
-                        return False
-                    else :
-                        del Occupation2[0]
+            if heures_passage[ind_train][1] == t: # un train sort à la minute t
+                if ind_train in Occupation1 :
+                    del Occupation1[Occupation1.index(ind_train)]
+                elif ind_train in Occupation2 :
+                    del Occupation2[Occupation2.index(ind_train)]
                 elif len(Occupation3) != 0:
-                    if Occupation3[0][0] != ind_train:
-                        return False
-                    else :
+                    if Occupation3[0][0] == ind_train :
                         del Occupation3[0]
     return True
 
@@ -491,27 +596,15 @@ def verif_troncon_4voies(plan, troncon_verif):
                             Occupation4.append(ind_train)
                     else :
                         Occupation3.append(ind_train)
-            elif heures_passage[ind_train][1] == t: # un train sort à la minute t
+            if heures_passage[ind_train][1] == t: # un train sort à la minute t
                 if ind_train in Occupation1:
-                    if Occupation1[0] != ind_train:
-                        return False
-                    else :
-                        del Occupation1[0]
+                    del Occupation1[Occupation1.index(ind_train)]
                 elif ind_train in Occupation2:
-                    if Occupation2[0] != ind_train:
-                        return False
-                    else :
-                        del Occupation2[0]
+                    del Occupation2[Occupation2.index(ind_train)]
                 elif ind_train in Occupation3:
-                    if Occupation3[0] != ind_train:
-                        return False
-                    else :
-                        del Occupation3[0]
+                    del Occupation3[Occupation3.index(ind_train)]
                 elif ind_train in Occupation4 :
-                    if Occupation4[0] != ind_train:
-                        return False
-                    else :
-                        del Occupation4[0]
+                    del Occupation4[Occupation4.index(ind_train)]
     return True
 
 def dist_noeuds_ligne(troncons_l, sens_parcours):
@@ -581,18 +674,17 @@ def verif_noeud(plan, noeud_verif):
             del Occupation[Occupation.index(elt)]
     return True
 
-def bien_places(plan, ind_h):
+def tgv_bien_places(plan, liste_tgv):
+    tous_tgv = [[] for b in range(len(liste_tgv))]
     for i_ligne in range(len(plan[0])):
         if plan[2][i_ligne] != -1:
-            for i in range(len(ind_h)):
-                if i_ligne in range(ind_h[i][0], ind_h[i][1]):
-                    h_min , h_max = 60*(i+6), 60*(i+7)
-            if plan[0][i_ligne] in ['TGV Creusot-Lyon', 'TGV Lille-Grenoble', 'TGV Marseille-Lyon', 'TGV Montpellier-Lyon', 'TGV Grenoble-Lille']:
-                if not(plan[2][i_ligne][0] in range(h_min, h_max)):
-                    return False
-            else :
-                if not(plan[2][i_ligne][0] in range(h_min - 10, h_max - 10)):
-                    return False
+            if plan[0][i_ligne] in liste_tgv:
+                i_tgv = liste_tgv.index(plan[0][i_ligne])
+                tous_tgv[i_tgv].append(plan[2][i_ligne][0])
+    for elt in tous_tgv :
+        for j in range(len(elt)-1):
+            if abs(elt[j] - elt[j+1]) <= 20:
+                return False
     return True
 
 def verif_plan(plan):
@@ -603,6 +695,8 @@ def verif_plan(plan):
     Sortie :
         un booléen : True si le plan est bon, False sinon
     """
+    if not(tgv_bien_places(plan, tgv_normal)):
+        return False
     _troncons_verif = [l1, l2, l3, l4, l5, l6, l7, l8, l9, l10, l11, l12, l13, l14, l15, l16, l17, l18, l20, l21, l22, l22bis, l23, l24, l25, l26, l27, l27bis, l28, l28bis, l29, l30, l31, l32, l33, l34, l35, l36, l37, l38, l39, l40, l41, l42, l43, l44, l45, l46, l47, l48, l49, l50, l51, l52, l53, l54, l55, l56, l57, l58, l59, l60, l61]
     for t in _troncons_verif:
         if t[-1] == 1:
