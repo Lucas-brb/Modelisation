@@ -42,10 +42,10 @@ def Liste_Gares_Heures(ligne,plan): #ligne sous la forme 'Roanne-Lyon'
         if plan[0][j]==ligne:
             indice_plan.append(j)
     Heures=[[] for _ in range (len(indice_plan))]
+    Distances=[[] for _ in range (len(indice_plan))]
     for k in range (len(indice_plan)):
         for l in range (0, len(plan[2][indice_plan[k]])-1):
             Heures[k].append(plan[2][indice_plan[k]][l+1])
-             #si on n'est pas en heure de pointe, comprendre 420 comme 7h car 420=7x60 min
             for h in range (1,len(Heures[k])-1):
                 if Heures[k][h+1]-Heures[k][h]==2 :
                     Heures[k][h]=Heures[k][h+1]
@@ -56,7 +56,7 @@ def Liste_Gares_Heures(ligne,plan): #ligne sous la forme 'Roanne-Lyon'
                     occurrences[chiffre] = True
                     Heur.append(chiffre)
                 Heures[k]=Heur #on transforme la liste des heures où il y avait des heures d'arrivée et de départ aux gares intermediaires en liste des heures où les trains ne font que passer par ces gares sans s'y arrêter
-    print (Heures)
+
     #on retire les heures correspond aux points qui ne sont pas des gares desservies
     for k in range (len(indice_plan)):
         Heures[k] = [Heures[k][i] for i in range(len(Heures[k])) if not(i in indices)]
