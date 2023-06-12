@@ -22,3 +22,5 @@ for i_heures in range(len(plan_heure2[2])) :
 plan_glob = []
 for i_p in range(len(plan)):
     plan_glob.append(plan[i_p] + plan_heure2[i_p])
+
+# print(verif_plan(plan_glob))

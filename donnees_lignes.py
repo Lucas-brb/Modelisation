@@ -68,8 +68,8 @@ l44=[gares[25],gares[24],140,46,1,2]
 l45=[gares[24],gares[23],160,15,1,2]
 
 l46=[gares[23],gares[20],110,14,1,2]
-l47=[gares[20],gares[21],115,20,1,2]
-l48=[gares[21],gares[22],115,18,1,2]
+l47=[gares[20],gares[21],115,20,1,1]
+l48=[gares[21],gares[22],115,18,1,1]
 
 l49=[bifurcations[0],gares[11],140,4,1,2]
 l50=[gares[11],gares[10],140,25,0,2]
@@ -159,7 +159,7 @@ capa_noeuds = {'Lyon':11,'Roanne':3, 'Amplepuis':2, 'Tarare':2, 'Arbesle':4, 'Lo
 #pour les gares, on met le nombre de voies de la gare
 
 #Couleurs des lignes pour le GET
-couleurs_lignes = {'Roanne-Lyon' : 'red', 'Roanne-Saint-Etienne' : 'green', 'Lyon-Saint-Etienne' :'purple' , 'Lyon-Macon' :'springgreen' , 'Lyon-Valence' :'cyan' , 'Lyon-Grenoble' :'deepskyblue' , 'Valence-Grenoble' : 'blueviolet', 'Grenoble-Chambery' :'gold' , 'Chambery-Annecy' :'magenta' , 'Lyon-Bourg-en-Bresse' :'hotpink' , 'Bourg-en-Bresse-Macon' :'navy' , 'Lyon-Chambery' :'grey' , 'Lyon-Annecy':'sienna','TGV Creusot-Lyon' :'orange' , 'TGV Lyon-Marseille' :'olive' ,'TGV Lyon-Montpellier' :'black' ,'TGV Lille-Grenoble':'blue',
-'Lyon-Roanne' :'red', 'StE-Roanne' :'green' , 'StE-Lyon' :'purple', 'Macon_Lyon' :'springgreen' ,'Valence-Lyon':'cyan','Grenoble-Lyon':'deepskyblue','Grenoble-Valence':'blueviolet', 'Chambéry-Grenoble': 'gold','Annecy-Chambéry':'magenta', 'Bourg-en-Bresse-Lyon':'hotpink','Macon-Bourg-en-Bresse':'navy','Chambery-Lyon':'grey','Annecy-Lyon':'sienna','TGV Lyon-Creusot':'orange','TGV Marseille-Lyon':'olive','TGV Montpellier-Lyon':'black', 'TGV Grenoble-Lille':'blue'}
+couleurs_lignes = {'Roanne-Lyon' : 'red', 'Roanne-Saint-Etienne' : 'green', 'Lyon-Saint-Etienne' :'purple' , 'Lyon-Macon' :'springgreen' , 'Lyon-Valence' :'cyan' , 'Lyon-Grenoble' :'deepskyblue' , 'Valence-Grenoble' : 'blueviolet', 'Grenoble-Chambery' :'gold' , 'Chambery-Annecy' :'magenta' , 'Lyon-Bourg-en-Bresse' :'hotpink' , 'Bourg-en-Bresse-Macon' :'navy' , 'Lyon-Chambery' :'teal' , 'Lyon-Annecy':'sienna','TGV Creusot-Lyon' :'orange' , 'TGV Lyon-Marseille' :'olive' ,'TGV Lyon-Montpellier' :'black' ,'TGV Lille-Grenoble':'blue',
+'Lyon-Roanne' :'red', 'StE-Roanne' :'green' , 'StE-Lyon' :'purple', 'Macon_Lyon' :'springgreen' ,'Valence-Lyon':'cyan','Grenoble-Lyon':'deepskyblue','Grenoble-Valence':'blueviolet', 'Chambéry-Grenoble': 'gold','Annecy-Chambéry':'magenta', 'Bourg-en-Bresse-Lyon':'hotpink','Macon-Bourg-en-Bresse':'navy','Chambery-Lyon':'teal','Annecy-Lyon':'sienna','TGV Lyon-Creusot':'orange','TGV Marseille-Lyon':'olive','TGV Montpellier-Lyon':'black', 'TGV Grenoble-Lille':'blue'}
 
 Sorties_de_Lyon={'Lyon_nord' : [[l9],[False]],'Lyon_sud':[[l22],[True]]}
