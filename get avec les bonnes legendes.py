@@ -113,7 +113,7 @@ def g_e_t(ligne, plan):
     plt.title("GET %s" % ligne)
     plt.xlabel("Heures")
     plt.ylabel("Noeuds")
-    plt.xlim(18*60,22*60)
+    # plt.xlim(18*60,22*60)
     plt.show()
     plt.close()
 
