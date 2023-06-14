@@ -1,3 +1,7 @@
+from plan_fonctionnel import *
+from donnees_lignes import *
+from acceleration_train import *
+
 def Liste_Gares_Heures(ligne,plan): #ligne sous la forme 'Roanne-Lyon'
     troncons_l=troncons_lignes[ligne][0]
     sens_parcours=troncons_lignes[ligne][1]
@@ -46,8 +50,9 @@ def Liste_Gares_Heures(ligne,plan): #ligne sous la forme 'Roanne-Lyon'
     for k in range (len(indice_plan)):
         for l in range (0, len(plan[2][indice_plan[k]])-1):
             Heures[k].append(plan[2][indice_plan[k]][l+1])
+            Distances[k].append(plan[1][indice_plan[k]][l+1])
             for h in range (1,len(Heures[k])-1):
-                if Heures[k][h+1]-Heures[k][h]==2 :
+                if Distances[k][h+1]==Distances[k][h] :
                     Heures[k][h]=Heures[k][h+1]
             Heur = []
             occurrences = {}
@@ -67,3 +72,23 @@ def Liste_Gares_Heures(ligne,plan): #ligne sous la forme 'Roanne-Lyon'
             Heures[k][m]=min_to_format(Heures[k][m])
 
     return Gares, Heures
+
+def Liste_Gares_Heures_v2(ligne, plan):
+    """
+    """
+    ind_ligne = []
+    for j in range(len(plan[0])):
+        if plan[0][j] == ligne:
+            ind_ligne.append(j)
+    Heures = [[min_to_format(plan[2][_][0])] for _ in ind_ligne]
+    Noeuds = [[plan[5][_][0]] for _ in ind_ligne]
+    a_supprimer = [[] for _ in ind_ligne]
+    for p in range(len(ind_ligne)):
+        for k in range(1, len(plan[5][ind_ligne[p]])):
+            if plan[5][ind_ligne[p]][k] in gares:
+                if plan[5][ind_ligne[p]][k] == Noeuds[p][-1]:
+                    Heures[p][-1] = Heures[p][-1] + ' - ' + min_to_format(plan[2][ind_ligne[p]][k])
+                else:
+                    Heures[p].append(min_to_format(plan[2][ind_ligne[p]][k]))
+                    Noeuds[p].append(plan[5][ind_ligne[p]][k])
+    return Noeuds[-1], Heures
